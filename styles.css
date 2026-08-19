@@ -804,11 +804,15 @@ textarea:focus {
 }
 
 .link-button {
+  display: inline-flex;
+  align-items: center;
   border: 0;
   background: transparent;
   cursor: pointer;
   color: #20272e;
   font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 .review-grid {

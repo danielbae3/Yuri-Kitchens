@@ -406,14 +406,6 @@ qsa("[data-close-modal]").forEach((button) => {
   button.addEventListener("click", () => setModalState(qs("#requestModal"), false));
 });
 
-qsa("[data-open-reviews]").forEach((button) => {
-  button.addEventListener("click", () => setModalState(qs("#reviewsModal"), true));
-});
-
-qsa("[data-close-reviews]").forEach((button) => {
-  button.addEventListener("click", () => setModalState(qs("#reviewsModal"), false));
-});
-
 const faqItems = qsa(".faq-item");
 const faqPanel = qs(".faq-answer-panel");
 const faqTitle = qs("[data-faq-title]");
