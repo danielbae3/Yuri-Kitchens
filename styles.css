@@ -308,7 +308,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
 .hero-media {
   grid-column: 2;
   grid-row: 1 / span 2;
-  margin-right: max(-32px, calc((1220px - 100vw) / 2));
+  margin-right: 0;
   min-height: 505px;
   overflow: hidden;
 }
@@ -467,9 +467,16 @@ dd {
   white-space: nowrap;
 }
 
+.carousel-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
+
 .carousel-dots {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 7px;
 }
 
@@ -702,24 +709,26 @@ textarea:focus {
 }
 
 .estimate {
+  align-self: start;
+  height: fit-content;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
-  padding: 32px;
+  padding: 26px 28px;
   box-shadow: var(--shadow);
 }
 
 .estimate h3 {
-  margin: 0 0 20px;
-  font-size: 22px;
+  margin: 0 0 16px;
+  font-size: 21px;
 }
 
 .price-line {
   display: flex;
   align-items: baseline;
   gap: 10px;
-  margin: 26px 0 20px;
-  padding-top: 24px;
+  margin: 20px 0 16px;
+  padding-top: 18px;
   border-top: 1px solid var(--line);
 }
 
@@ -832,11 +841,18 @@ textarea:focus {
 }
 
 .reviews-bottom {
-  display: flex;
-  align-items: center;
+  display: grid;
   justify-content: center;
-  gap: 18px;
-  margin-top: 22px;
+  justify-items: center;
+  gap: 14px;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.review-pagination,
+.reviews-link-row {
+  display: flex;
+  justify-content: center;
 }
 
 .review-dots {
