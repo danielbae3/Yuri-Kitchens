@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KUHNI - кухни на заказ в Ульяновске</title>
+    <meta
+      name="description"
+      content="Кухни на заказ в Ульяновске: проектирование, материалы, расчет стоимости и заявка на замер."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-grid">
+        <a class="logo" href="#" aria-label="KUHNI">
+          <span>KUHNI</span>
+          <small>CUSTOM KITCHENS</small>
+        </a>
+        <nav class="nav" aria-label="Основная навигация">
+          <a href="#kitchens">Наши кухни</a>
+          <a href="#materials">Материалы</a>
+          <a href="#process">Как мы работаем</a>
+          <a href="#reviews">Отзывы</a>
+          <a href="#faq">Вопросы и ответы</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <div class="header-contact">
+          <a href="tel:+79276332197">+7 927 633-21-97</a>
+          <span>Ежедневно с 10:00 до 20:00</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <h1>Кухни на заказ в Ульяновске</h1>
+            <p>Проектируем и создаем кухни, в которых каждый день - в удовольствие.</p>
+            <div class="hero-actions">
+              <a class="btn btn-dark" href="#calculator">Рассчитать кухню</a>
+              <button class="btn btn-light" type="button" data-open-modal>Вызвать замерщика</button>
+            </div>
+            <div class="benefits" aria-label="Преимущества">
+              <article>
+                <span class="benefit-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M4 20V9.5L12 4l8 5.5V20"/><path d="M8 20v-8h8v8"/><path d="M10 16h4"/></svg>
+                </span>
+                <p>Собственное производство</p>
+              </article>
+              <article>
+                <span class="benefit-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M5 18.5V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12.5"/><path d="M8 8h8"/><path d="M8 12h5"/><path d="M4 20h16"/></svg>
+                </span>
+                <p>Индивидуальные проекты</p>
+              </article>
+              <article>
+                <span class="benefit-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-2.7 8.4-7 10-4.3-1.6-7-5.6-7-10V6l7-3z"/><path d="M8.5 12l2.2 2.2 4.8-5"/></svg>
+                </span>
+                <p>Гарантия 24 месяца</p>
+              </article>
+              <article>
+                <span class="benefit-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M7 3v3"/><path d="M17 3v3"/><path d="M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M9 14h3v3"/></svg>
+                </span>
+                <p>Срок изготовления от 21 дня</p>
+              </article>
+            </div>
+          </div>
+          <div class="hero-media">
+            <img src="assets/hero-premium.png" alt="Светлая современная кухня с островом" />
+          </div>
+        </div>
+      </section>
+
+      <section class="section kitchens" id="kitchens">
+        <div class="container">
+          <div class="kitchens-heading">
+            <h2>Наши кухни</h2>
+            <span>Реальные проекты для светлых, продуманных интерьеров</span>
+          </div>
+          <div class="kitchen-carousel" aria-roledescription="carousel" aria-label="Проекты кухонь">
+            <div class="carousel-stage" data-carousel-stage>
+              <div class="carousel-track" data-carousel-track></div>
+              <button class="circle-btn prev" type="button" aria-label="Предыдущая кухня" data-carousel-prev>
+                <span aria-hidden="true">‹</span>
+              </button>
+              <button class="circle-btn next" type="button" aria-label="Следующая кухня" data-carousel-next>
+                <span aria-hidden="true">›</span>
+              </button>
+            </div>
+            <div class="slide-info">
+              <div class="slide-copy">
+                <h3 data-slide-title>Классическая угловая кухня</h3>
+                <div class="slide-tags" data-slide-tags></div>
+              </div>
+              <div class="slide-actions">
+                <div class="carousel-dots" data-carousel-dots aria-label="Выбор проекта"></div>
+                <button class="btn btn-dark" type="button" data-open-modal>Рассчитать похожую кухню</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section materials" id="materials">
+        <div class="container materials-grid">
+          <div class="section-heading">
+            <h2>Материалы</h2>
+            <div class="tabs" role="tablist" aria-label="Материалы кухни">
+              <button class="tab active" type="button" role="tab" aria-selected="true" data-material="fronts">Фасады</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-material="countertops">Столешницы</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-material="case">Корпус</button>
+              <button class="tab" type="button" role="tab" aria-selected="false" data-material="hardware">Фурнитура</button>
+            </div>
+          </div>
+          <div class="material-image">
+            <img data-material-image src="assets/material-facade.jpg" alt="Матовая фасадная панель" />
+          </div>
+          <div class="material-copy">
+            <h3 data-material-title>МДФ в эмали</h3>
+            <p data-material-text>
+              Премиальное покрытие с гладкой матовой поверхностью. Устойчиво к влаге, подходит для минималистичных интерьеров.
+            </p>
+            <div class="swatches" data-swatches aria-label="Доступные оттенки"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section calculator-section" id="calculator">
+        <div class="container calculator-grid">
+          <form class="calculator" id="kitchenCalc">
+            <div class="form-head">
+              <h2>Предварительный расчет кухни</h2>
+              <p>Заполните параметры и мы подготовим ориентировочную стоимость.</p>
+            </div>
+            <label>
+              <span>Тип кухни</span>
+              <span class="select-wrap">
+                <select name="type">
+                  <option value="linear">Линейная</option>
+                  <option value="corner">Угловая</option>
+                  <option value="uShape">П-образная</option>
+                  <option value="island">С островом</option>
+                </select>
+              </span>
+            </label>
+            <div class="size-row">
+              <label>
+                <span>Ширина, мм</span>
+                <input name="width" type="number" min="1600" max="7000" step="100" value="3000" />
+              </label>
+              <label>
+                <span>Высота, мм</span>
+                <input name="height" type="number" min="2100" max="3200" step="50" value="2500" />
+              </label>
+            </div>
+            <label>
+              <span>Фасады</span>
+              <span class="select-wrap">
+                <select name="front">
+                  <option value="mdf">МДФ</option>
+                  <option value="enamel">МДФ эмаль</option>
+                  <option value="veneer">Шпон</option>
+                  <option value="solid">Массив</option>
+                </select>
+              </span>
+            </label>
+            <label>
+              <span>Встроенная техника</span>
+              <span class="select-wrap">
+                <select name="appliances">
+                  <option value="yes">Да</option>
+                  <option value="no">Нет</option>
+                </select>
+              </span>
+            </label>
+            <label>
+              <span>Материал столешницы</span>
+              <span class="select-wrap">
+                <select name="countertop">
+                  <option value="hpl">HPL</option>
+                  <option value="quartz">Кварц</option>
+                  <option value="stone">Искусственный камень</option>
+                </select>
+              </span>
+            </label>
+            <label>
+              <span>Система плавного закрытия</span>
+              <span class="select-wrap">
+                <select name="softClose">
+                  <option value="yes">Да</option>
+                  <option value="no">Нет</option>
+                </select>
+              </span>
+            </label>
+          </form>
+          <aside class="estimate" aria-live="polite">
+            <h3>Предварительный расчет</h3>
+            <dl>
+              <div><dt>Тип кухни</dt><dd data-result-type>Линейная</dd></div>
+              <div><dt>Размеры</dt><dd data-result-size>3000 × 2500 мм</dd></div>
+              <div><dt>Фасады</dt><dd data-result-front>МДФ</dd></div>
+              <div><dt>Встроенная техника</dt><dd data-result-appliances>Да</dd></div>
+            </dl>
+            <div class="price-line">
+              <span>от</span>
+              <strong data-result-price>81 600 ₽</strong>
+              <em>ориентировочно</em>
+            </div>
+            <button class="btn btn-dark" type="button" data-open-modal>Отправить параметры</button>
+            <p>Мы свяжемся и уточним детали.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section process" id="process">
+        <div class="container">
+          <h2>Как мы работаем</h2>
+          <div class="steps">
+            <article><b>1</b><h3>Заявка</h3><p>Вы отправляете размеры помещения и пожелания по кухне.</p></article>
+            <article><b>2</b><h3>Обсуждение проекта</h3><p>Уточняем детали, материалы и бюджет проекта.</p></article>
+            <article><b>3</b><h3>Предварительный расчет</h3><p>Готовим ориентировочный расчет и варианты комплектации.</p></article>
+            <article><b>4</b><h3>Изготовление</h3><p>Производим кухню и передаем ее на монтаж.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section reviews" id="reviews">
+        <div class="container reviews-head">
+          <h2>Отзывы наших клиентов</h2>
+          <button class="link-button" type="button" data-open-reviews>Смотреть все отзывы →</button>
+        </div>
+        <div class="container review-grid">
+          <article class="review-card">
+            <div><h3>Елена, Ульяновск</h3><span>12.04.2026</span></div>
+            <p>Заказывали кухню по индивидуальному проекту. Все сделали точно по размерам, качество отличное.</p>
+            <img src="assets/review-01.png" alt="Кухня клиента Елены" />
+          </article>
+          <article class="review-card">
+            <div><h3>Игорь, Ульяновск</h3><span>28.03.2026</span></div>
+            <p>Понравился подход: все подробно рассчитали, помогли с выбором материалов.</p>
+            <img src="assets/review-02.png" alt="Кухня клиента Игоря" />
+          </article>
+          <article class="review-card">
+            <div><h3>Мария, Ульяновск</h3><span>11.02.2026</span></div>
+            <p>Современная кухня с удобным хранением. Отдельное спасибо за аккуратный монтаж.</p>
+            <img src="assets/review-03.png" alt="Кухня клиента Марии" />
+          </article>
+        </div>
+      </section>
+
+      <section class="section faq" id="faq">
+        <div class="container">
+          <h2>Часто задаваемые вопросы</h2>
+          <div class="faq-grid">
+            <div class="faq-list" role="list">
+              <article class="faq-item active">
+                <button class="faq-question" type="button" aria-expanded="true" data-faq="0">
+                  <span>Как получить предварительный расчет?</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+                <div class="faq-mobile-answer"><p>Заполните калькулятор или оставьте заявку. Мы уточним размеры и подготовим расчет.</p></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false" data-faq="1">
+                  <span>От чего зависит стоимость кухни?</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+                <div class="faq-mobile-answer"><p>На цену влияют размеры, фасады, столешница, фурнитура, техника и сложность монтажа.</p></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false" data-faq="2">
+                  <span>Какие материалы и фурнитуру вы используете?</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+                <div class="faq-mobile-answer"><p>Работаем с МДФ, эмалью, шпоном, HPL, кварцем и надежной фурнитурой с доводчиками.</p></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false" data-faq="3">
+                  <span>Можно ли внести изменения в проект?</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+                <div class="faq-mobile-answer"><p>Да, до утверждения спецификации мы корректируем планировку, материалы и комплектацию.</p></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false" data-faq="4">
+                  <span>Вы изготавливаете только кухни?</span>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                </button>
+                <div class="faq-mobile-answer"><p>Основное направление - кухни, также можем обсудить шкафы и встроенную мебель в том же стиле.</p></div>
+              </article>
+            </div>
+            <div class="faq-answer-panel" aria-live="polite">
+              <span data-faq-kicker>01 / 05</span>
+              <h3 data-faq-title>Как получить предварительный расчет?</h3>
+              <p data-faq-text>Заполните калькулятор или оставьте заявку. Мы уточним размеры и подготовим расчет.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section cta-strip">
+        <div class="container cta-panel">
+          <div class="cta-media" aria-hidden="true"></div>
+          <div>
+            <h2>Пришлите размеры помещения</h2>
+            <p>Мы подготовим предварительный расчет стоимости вашей будущей кухни.</p>
+          </div>
+          <div class="cta-actions">
+            <button class="btn btn-light" type="button" data-open-modal>Получить расчет</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contacts" id="contacts">
+        <div class="container contacts-grid">
+          <aside class="contact-card">
+            <h2>Контакты</h2>
+            <p>Работаем по Ульяновску и области</p>
+            <a class="phone-link" href="tel:+79276332197">+7 927 633-21-97</a>
+            <span>с 10:00 до 20:00</span>
+            <div class="contact-actions">
+              <a class="max-link" href="" aria-label="Написать в MAX">
+                <img src="assets/max-logo.svg" alt="" />
+                <span>Написать в MAX</span>
+              </a>
+            </div>
+            <button class="btn btn-dark" type="button" data-open-modal>Связаться</button>
+          </aside>
+          <div class="map-wrap">
+            <iframe
+              title="Яндекс Карта: Ульяновск, 2-ой проезд Инженерный, 2А"
+              src="https://yandex.ru/map-widget/v1/?text=%D0%A3%D0%BB%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%2C%202-%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4%20%D0%98%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%202%D0%90&z=15"
+              loading="lazy"
+            ></iframe>
+            <a
+              class="map-route"
+              href="https://yandex.ru/maps/?text=%D0%A3%D0%BB%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%2C%202-%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4%20%D0%98%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%202%D0%90"
+              target="_blank"
+              rel="noreferrer"
+            >Открыть маршрут</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <a class="logo" href="#">
+          <span>KUHNI</span>
+          <small>Кухни и корпусная мебель</small>
+        </a>
+        <nav aria-label="Навигация в футере">
+          <a href="#kitchens">Кухни</a>
+          <a href="#materials">Материалы</a>
+          <a href="#calculator">Расчет</a>
+          <a href="#process">Как мы работаем</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <p>© 2026 KUHNI. Все права защищены.</p>
+      </div>
+    </footer>
+
+    <div class="modal" id="requestModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="requestTitle">
+        <button class="modal-close" type="button" data-close-modal aria-label="Закрыть">×</button>
+        <div class="modal-intro">
+          <h2 id="requestTitle">Заявка на расчет кухни</h2>
+          <p>Оставьте контакты, и мы свяжемся для уточнения размеров и комплектации.</p>
+        </div>
+        <form class="request-form" id="requestForm" novalidate>
+          <label>
+            <span>Имя</span>
+            <input name="name" type="text" placeholder="Как к вам обращаться" required />
+          </label>
+          <label>
+            <span>Телефон</span>
+            <input name="phone" type="tel" placeholder="+7 927 633-21-97" required />
+          </label>
+          <label>
+            <span>Размеры кухни</span>
+            <input name="size" type="text" placeholder="Например, 3000 × 2500 мм" />
+          </label>
+          <label>
+            <span>Удобное время</span>
+            <span class="select-wrap">
+              <select name="time">
+                <option>Сегодня</option>
+                <option>Завтра</option>
+                <option>В течение недели</option>
+              </select>
+            </span>
+          </label>
+          <label class="wide">
+            <span>Комментарий</span>
+            <textarea name="comment" rows="4" placeholder="Тип кухни, материалы, пожелания"></textarea>
+          </label>
+          <p class="form-error" data-form-error></p>
+          <button class="btn btn-dark wide" type="submit">Отправить заявку</button>
+          <p class="form-success" data-form-success>Заявка подготовлена. Спасибо, мы скоро свяжемся с вами.</p>
+        </form>
+      </section>
+    </div>
+
+    <div class="modal" id="reviewsModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-reviews></div>
+      <section class="modal-card gallery" role="dialog" aria-modal="true" aria-labelledby="reviewsTitle">
+        <button class="modal-close" type="button" data-close-reviews aria-label="Закрыть">×</button>
+        <h2 id="reviewsTitle">Отзывы и проекты</h2>
+        <div class="gallery-grid">
+          <img src="assets/kitchen-04.png" alt="Проект кухни 1" />
+          <img src="assets/hero-premium.png" alt="Проект кухни 2" />
+          <img src="assets/kitchen-05.png" alt="Проект кухни 3" />
+          <img src="assets/kitchen-01.png" alt="Проект кухни 4" />
+          <img src="assets/review-01.png" alt="Проект кухни 5" />
+          <img src="assets/review-02.png" alt="Проект кухни 6" />
+        </div>
+      </section>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
