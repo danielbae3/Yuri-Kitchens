@@ -405,22 +405,26 @@ function escapeHtml(value) {
 }
 
 function renderQuiz() {
+  const card = qs(".quiz-card");
   const body = qs("[data-quiz-body]");
   const stepLabel = qs("[data-quiz-step]");
   const progress = qs("[data-quiz-progress]");
   const back = qs("[data-quiz-back]");
+  const footer = qs(".quiz-footer");
   const footerText = qs(".quiz-footer p");
-  if (!body || !stepLabel || !progress || !back || !footerText) return;
+  if (!body || !stepLabel || !progress || !back || !footer || !footerText) return;
 
   const step = quizSteps[quizIndex];
   stepLabel.textContent = `Шаг ${quizIndex + 1} / ${quizSteps.length}`;
   progress.style.width = `${((quizIndex + 1) / quizSteps.length) * 100}%`;
   back.disabled = quizIndex === 0;
   back.hidden = quizIndex === 0;
+  footer.hidden = quizIndex === 0;
+  card?.classList.toggle("is-first-step", quizIndex === 0);
   footerText.textContent =
     step.kind === "contact"
       ? "Заполните телефон, чтобы получить результат под вашу кухню."
-      : "Выберите вариант, и квиз перейдет дальше автоматически.";
+      : "Можно вернуться назад, если хотите изменить предыдущий ответ.";
 
   const note = step.note ? `<p>${step.note}</p>` : "";
   let content = `<div class="quiz-question"><h2 id="quizTitle">${step.title}</h2>${note}</div>`;
@@ -435,7 +439,16 @@ function renderQuiz() {
           </button>`
       )
       .join("");
-    content += `<div class="quiz-options image">${options}</div>`;
+    content += `
+      <div class="quiz-scroll-wrap" data-quiz-scroll-wrap>
+        <button class="quiz-scroll-hint prev" type="button" aria-label="Показать предыдущие варианты" data-quiz-scroll="prev">
+          <span aria-hidden="true">‹</span>
+        </button>
+        <div class="quiz-options image" data-quiz-options>${options}</div>
+        <button class="quiz-scroll-hint next" type="button" aria-label="Показать следующие варианты" data-quiz-scroll="next">
+          <span aria-hidden="true">›</span>
+        </button>
+      </div>`;
   }
 
   if (step.kind === "radio") {
@@ -472,6 +485,31 @@ function renderQuiz() {
   }
 
   body.innerHTML = content;
+  initQuizScroller();
+}
+
+function initQuizScroller() {
+  const wrap = qs("[data-quiz-scroll-wrap]");
+  const scroller = qs("[data-quiz-options]");
+  if (!wrap || !scroller) return;
+
+  const updateState = () => {
+    const maxScroll = scroller.scrollWidth - scroller.clientWidth - 2;
+    wrap.classList.toggle("can-scroll-prev", scroller.scrollLeft > 8);
+    wrap.classList.toggle("can-scroll-next", scroller.scrollLeft < maxScroll);
+  };
+
+  qsa("[data-quiz-scroll]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const direction = button.dataset.quizScroll === "prev" ? -1 : 1;
+      const firstOption = scroller.querySelector(".quiz-option");
+      const step = firstOption ? firstOption.getBoundingClientRect().width + 12 : scroller.clientWidth * 0.7;
+      scroller.scrollBy({ left: direction * step, behavior: "smooth" });
+    });
+  });
+
+  scroller.addEventListener("scroll", () => requestAnimationFrame(updateState), { passive: true });
+  window.setTimeout(updateState, 0);
 }
 
 function goToQuizStep(index) {
