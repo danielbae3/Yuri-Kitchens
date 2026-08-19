@@ -1311,22 +1311,28 @@ textarea:focus {
   }
 
   .hero-grid {
-    grid-template-columns: 1fr;
-    gap: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
   }
 
   .hero-copy {
-    padding: 58px 0 34px;
+    padding: 46px 0 0;
   }
 
   .hero-media {
-    min-height: 360px;
+    height: clamp(260px, 42vw, 360px);
+    min-height: 0;
+    aspect-ratio: 16 / 9;
     margin: 0;
+    overflow: hidden;
     border-radius: 8px;
   }
 
   .hero-media img {
-    object-position: 62% center;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
   }
 
   .carousel-card {
@@ -1438,6 +1444,7 @@ textarea:focus {
 
   .hero {
     min-height: auto;
+    display: block;
   }
 
   .section {
@@ -1445,7 +1452,7 @@ textarea:focus {
   }
 
   .hero-copy {
-    padding: 42px 0 24px;
+    padding: 34px 0 0;
   }
 
   .hero h1 {
@@ -1456,14 +1463,25 @@ textarea:focus {
 
   .hero p {
     max-width: 560px;
+    margin-top: 18px;
     font-size: 16px;
+  }
+
+  .hero-actions {
+    gap: 12px;
+    margin-top: 24px;
+  }
+
+  .hero-actions .btn {
+    flex: 1 1 220px;
+    min-width: 0;
   }
 
   .benefits {
     display: flex;
     grid-template-columns: none;
     gap: 12px;
-    margin-top: 28px;
+    margin-top: 24px;
     overflow-x: auto;
     padding: 2px 2px 10px;
     scroll-snap-type: x mandatory;
@@ -1477,13 +1495,23 @@ textarea:focus {
   }
 
   .benefits article {
-    flex: 0 0 min(220px, 72vw);
-    min-height: 98px;
+    flex: 0 0 min(200px, 68vw);
+    min-height: 88px;
+    gap: 10px;
     scroll-snap-align: start;
   }
 
   .hero-media {
-    min-height: 300px;
+    height: clamp(220px, 58vw, 340px);
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+
+  .hero-media img {
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
   }
 
   .materials-grid,
@@ -1673,7 +1701,7 @@ textarea:focus {
   }
 
   .hero-copy {
-    padding-top: 32px;
+    padding-top: 28px;
   }
 
   .hero h1 {
@@ -1692,6 +1720,11 @@ textarea:focus {
     align-items: stretch;
   }
 
+  .hero-actions .btn {
+    width: 100%;
+    flex-basis: auto;
+  }
+
   .benefits,
   .steps,
   .review-grid,
@@ -1708,7 +1741,7 @@ textarea:focus {
   }
 
   .benefits article {
-    flex-basis: min(210px, 78vw);
+    flex-basis: min(190px, 76vw);
   }
 
   .steps article {
@@ -1748,6 +1781,11 @@ textarea:focus {
     height: 220px;
   }
 
+  .hero-media {
+    height: clamp(220px, 58vw, 300px);
+    aspect-ratio: 4 / 3;
+  }
+
   .carousel-card {
     height: clamp(235px, 64vw, 320px);
     aspect-ratio: 4 / 3;
@@ -1760,7 +1798,7 @@ textarea:focus {
   }
 
   .hero-media img {
-    object-position: 68% center;
+    object-position: center center;
   }
 
   .slide-info h3 {
