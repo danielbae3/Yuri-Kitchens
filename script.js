@@ -416,6 +416,7 @@ function renderQuiz() {
   stepLabel.textContent = `Шаг ${quizIndex + 1} / ${quizSteps.length}`;
   progress.style.width = `${((quizIndex + 1) / quizSteps.length) * 100}%`;
   back.disabled = quizIndex === 0;
+  back.hidden = quizIndex === 0;
   footerText.textContent =
     step.kind === "contact"
       ? "Заполните телефон, чтобы получить результат под вашу кухню."
@@ -427,8 +428,8 @@ function renderQuiz() {
   if (step.kind === "image") {
     const options = step.options
       .map(
-        (option) => `
-          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--quiz-image: url('${step.image}'); --quiz-pos: ${option.position};">
+        (option, index) => `
+          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--i: ${index}; --quiz-image: url('${step.image}'); --quiz-pos: ${option.position};">
             <span class="quiz-option-media" aria-hidden="true"></span>
             <strong>${option.label}</strong>
           </button>`
@@ -440,8 +441,8 @@ function renderQuiz() {
   if (step.kind === "radio") {
     const options = step.options
       .map(
-        (option) => `
-          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}">
+        (option, index) => `
+          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--i: ${index};">
             <span class="quiz-radio"><strong>${option.label}</strong></span>
           </button>`
       )
