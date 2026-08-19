@@ -568,9 +568,11 @@ function validatePhone(value) {
 const menuToggle = qs("[data-menu-toggle]");
 const menuClose = qs("[data-menu-close]");
 const navLinks = qsa(".nav a");
+const siteHeader = qs(".site-header");
 
 function setNavState(open) {
   document.body.classList.toggle("nav-open", open);
+  if (open) document.body.classList.remove("header-hidden");
   menuToggle?.setAttribute("aria-expanded", String(open));
   menuToggle?.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
 }
@@ -584,6 +586,49 @@ menuClose?.addEventListener("click", () => setNavState(false));
 navLinks.forEach((link) => {
   link.addEventListener("click", () => setNavState(false));
 });
+
+function initSmartHeader() {
+  if (!siteHeader) return;
+
+  let lastScrollY = window.scrollY;
+  let ticking = false;
+
+  const updateHeader = () => {
+    const currentY = window.scrollY;
+    const isMobile = window.matchMedia("(max-width: 820px)").matches;
+    const isLocked =
+      document.body.classList.contains("nav-open") ||
+      document.body.classList.contains("modal-open") ||
+      siteHeader.contains(document.activeElement);
+
+    if (!isMobile || isLocked || currentY < 84) {
+      document.body.classList.remove("header-hidden");
+      lastScrollY = currentY;
+      ticking = false;
+      return;
+    }
+
+    const delta = currentY - lastScrollY;
+    if (Math.abs(delta) > 12) {
+      document.body.classList.toggle("header-hidden", delta > 0);
+      lastScrollY = currentY;
+    }
+
+    ticking = false;
+  };
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(updateHeader);
+  };
+
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  updateHeader();
+}
+
+initSmartHeader();
 
 qsa("[data-material]").forEach((tab) => {
   tab.addEventListener("click", () => {
