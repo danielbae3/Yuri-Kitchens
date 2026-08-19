@@ -48,35 +48,35 @@
               <a class="btn btn-dark" href="#calculator">Рассчитать кухню</a>
               <button class="btn btn-light" type="button" data-open-modal>Вызвать замерщика</button>
             </div>
-            <div class="benefits" aria-label="Преимущества">
-              <article>
-                <span class="benefit-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M4 20V9.5L12 4l8 5.5V20"/><path d="M8 20v-8h8v8"/><path d="M10 16h4"/></svg>
-                </span>
-                <p>Собственное производство</p>
-              </article>
-              <article>
-                <span class="benefit-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M5 18.5V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12.5"/><path d="M8 8h8"/><path d="M8 12h5"/><path d="M4 20h16"/></svg>
-                </span>
-                <p>Индивидуальные проекты</p>
-              </article>
-              <article>
-                <span class="benefit-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-2.7 8.4-7 10-4.3-1.6-7-5.6-7-10V6l7-3z"/><path d="M8.5 12l2.2 2.2 4.8-5"/></svg>
-                </span>
-                <p>Гарантия 24 месяца</p>
-              </article>
-              <article>
-                <span class="benefit-icon" aria-hidden="true">
-                  <svg viewBox="0 0 24 24"><path d="M7 3v3"/><path d="M17 3v3"/><path d="M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M9 14h3v3"/></svg>
-                </span>
-                <p>Срок изготовления от 21 дня</p>
-              </article>
-            </div>
           </div>
           <div class="hero-media">
             <img src="assets/hero-premium.png" alt="Светлая современная кухня с островом" />
+          </div>
+          <div class="benefits" aria-label="Преимущества">
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M4 20V9.5L12 4l8 5.5V20"/><path d="M8 20v-8h8v8"/><path d="M10 16h4"/></svg>
+              </span>
+              <p>Производство</p>
+            </article>
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 18.5V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12.5"/><path d="M8 8h8"/><path d="M8 12h5"/><path d="M4 20h16"/></svg>
+              </span>
+              <p>Проект под размер</p>
+            </article>
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-2.7 8.4-7 10-4.3-1.6-7-5.6-7-10V6l7-3z"/><path d="M8.5 12l2.2 2.2 4.8-5"/></svg>
+              </span>
+              <p>Гарантия 24 месяца</p>
+            </article>
+            <article>
+              <span class="benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M7 3v3"/><path d="M17 3v3"/><path d="M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M9 14h3v3"/></svg>
+              </span>
+              <p>Срок от 21 дня</p>
+            </article>
           </div>
         </div>
       </section>
@@ -237,12 +237,6 @@
       <section class="section reviews" id="reviews">
         <div class="container reviews-head">
           <h2>Отзывы наших клиентов</h2>
-          <a
-            class="link-button"
-            href="https://www.avito.ru/ulyanovsk/mebel_i_interer/kuhni_na_zakaz_ot_proizvoditelya_3473334703#open-reviews-list"
-            target="_blank"
-            rel="noopener"
-          >Смотреть все отзывы на Авито →</a>
         </div>
         <div class="container review-grid">
           <article class="review-card">
@@ -276,10 +270,19 @@
             <img src="assets/kitchen-project-06-sm.webp" alt="Кухня по отзыву Елены" />
           </article>
           <article class="review-card">
-            <div><h3>Наталья Кирилл</h3><span>18.12.2023</span></div>
-            <p>На следующий день приехали на замер. Большой заказ выполнили качественно и в срок, сборщики установили все аккуратно.</p>
+            <div><h3>Наталья</h3><span>18.12.2023</span></div>
+            <p>Быстро приехали на замер, подробно все объяснили. Большой заказ выполнили в срок, сборка прошла аккуратно.</p>
             <img src="assets/kitchen-project-07-sm.webp" alt="Кухня по отзыву Натальи Кирилл" />
           </article>
+        </div>
+        <div class="container reviews-bottom">
+          <div class="review-dots" data-review-dots aria-label="Пагинация отзывов"></div>
+          <a
+            class="link-button"
+            href="https://www.avito.ru/ulyanovsk/mebel_i_interer/kuhni_na_zakaz_ot_proizvoditelya_3473334703#open-reviews-list"
+            target="_blank"
+            rel="noopener"
+          >Смотреть все отзывы на Авито →</a>
         </div>
       </section>
 
@@ -351,25 +354,29 @@
           <aside class="contact-card">
             <h2>Контакты</h2>
             <p>Работаем по Ульяновску и области</p>
-            <a class="phone-link" href="tel:+79276332197">+7 927 633-21-97</a>
-            <span>с 10:00 до 20:00</span>
+            <span class="contact-address">Ульяновск, 2-й Инженерный проезд, 2А</span>
             <div class="contact-actions">
+              <a class="call-link" href="tel:+79276332197">
+                <span>Позвонить</span>
+                <strong>+7 927 633-21-97</strong>
+              </a>
               <a class="max-link" href="" aria-label="Написать в MAX">
                 <img src="assets/max-logo.svg" alt="" />
                 <span>Написать в MAX</span>
               </a>
             </div>
-            <button class="btn btn-dark" type="button" data-open-modal>Связаться</button>
+            <span class="contact-time">с 10:00 до 20:00</span>
+            <button class="btn btn-dark" type="button" data-open-modal>Оставить заявку</button>
           </aside>
           <div class="map-wrap">
             <iframe
               title="Яндекс Карта: Ульяновск, 2-ой проезд Инженерный, 2А"
-              src="https://yandex.ru/map-widget/v1/?text=%D0%A3%D0%BB%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%2C%202-%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4%20%D0%98%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%202%D0%90&z=15"
+              src="https://yandex.ru/map-widget/v1/?mode=search&text=%D0%A3%D0%BB%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%2C%202-%D0%B9%20%D0%98%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4%2C%202%D0%90&z=16"
               loading="lazy"
             ></iframe>
             <a
               class="map-route"
-              href="https://yandex.ru/maps/?text=%D0%A3%D0%BB%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%2C%202-%D0%BE%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4%20%D0%98%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%202%D0%90"
+              href="https://yandex.ru/maps/?mode=search&text=%D0%A3%D0%BB%D1%8C%D1%8F%D0%BD%D0%BE%D0%B2%D1%81%D0%BA%2C%202-%D0%B9%20%D0%98%D0%BD%D0%B6%D0%B5%D0%BD%D0%B5%D1%80%D0%BD%D1%8B%D0%B9%20%D0%BF%D1%80%D0%BE%D0%B5%D0%B7%D0%B4%2C%202%D0%90"
               target="_blank"
               rel="noreferrer"
             >Открыть маршрут</a>

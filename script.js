@@ -259,6 +259,62 @@ function initKitchenCarousel() {
   });
 }
 
+function initReviewScroller() {
+  const grid = qs(".review-grid");
+  const dots = qs("[data-review-dots]");
+  const cards = qsa(".review-card");
+  if (!grid || !dots || cards.length < 2) return;
+
+  let reviewTicking = false;
+
+  const setActiveDot = () => {
+    const gridLeft = grid.getBoundingClientRect().left;
+    const activeIndex = cards.reduce(
+      (closest, card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - gridLeft);
+        return distance < closest.distance ? { distance, index } : closest;
+      },
+      { distance: Infinity, index: 0 }
+    ).index;
+
+    qsa(".review-dot").forEach((dot, index) => {
+      dot.classList.toggle("active", index === activeIndex);
+      dot.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+    });
+  };
+
+  dots.innerHTML = "";
+  cards.forEach((card, index) => {
+    const dot = document.createElement("button");
+    dot.className = "review-dot";
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Показать отзыв ${index + 1}`);
+    dot.addEventListener("click", () => {
+      grid.scrollTo({
+        left: card.offsetLeft - grid.offsetLeft,
+        behavior: "smooth",
+      });
+    });
+    dots.append(dot);
+  });
+
+  grid.addEventListener(
+    "scroll",
+    () => {
+      if (reviewTicking) return;
+      reviewTicking = true;
+      requestAnimationFrame(() => {
+        setActiveDot();
+        reviewTicking = false;
+      });
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("resize", setActiveDot);
+  setActiveDot();
+}
+
 function renderMaterial(key) {
   const material = materialData[key];
   qs("[data-material-title]").textContent = material.title;
@@ -487,6 +543,7 @@ qs("#requestForm").addEventListener("submit", (event) => {
 });
 
 initKitchenCarousel();
+initReviewScroller();
 renderMaterial("fronts");
 calculateKitchen();
 setFaq(0);
