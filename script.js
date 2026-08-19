@@ -656,6 +656,40 @@ qsa('a[href=""]').forEach((link) => {
   link.addEventListener("click", (event) => event.preventDefault());
 });
 
+function copyText(value) {
+  if (navigator.clipboard?.writeText) {
+    return navigator.clipboard.writeText(value);
+  }
+
+  const field = document.createElement("textarea");
+  field.value = value;
+  field.setAttribute("readonly", "");
+  field.style.position = "fixed";
+  field.style.left = "-9999px";
+  document.body.append(field);
+  field.select();
+  document.execCommand("copy");
+  field.remove();
+  return Promise.resolve();
+}
+
+qsa("[data-copy-phone]").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const originalLabel = button.getAttribute("aria-label") || "Скопировать номер";
+    try {
+      await copyText(button.dataset.copyPhone);
+      button.classList.add("copied");
+      button.setAttribute("aria-label", "Скопировано");
+      window.setTimeout(() => {
+        button.classList.remove("copied");
+        button.setAttribute("aria-label", originalLabel);
+      }, 1400);
+    } catch {
+      button.setAttribute("aria-label", "Не удалось скопировать");
+    }
+  });
+});
+
 qs("#requestForm").addEventListener("submit", (event) => {
   event.preventDefault();
   const form = event.currentTarget;

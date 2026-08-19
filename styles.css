@@ -610,8 +610,20 @@ dd {
   background: var(--paper);
 }
 
+.quiz-heading {
+  margin-bottom: 20px;
+}
+
+.quiz-heading p {
+  max-width: 620px;
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
 .quiz-card {
-  min-height: clamp(480px, 56vh, 560px);
+  min-height: 560px;
   display: grid;
   grid-template-rows: auto 1fr auto;
   border: 1px solid var(--line);
@@ -1075,8 +1087,8 @@ textarea:focus {
   display: grid;
   justify-content: center;
   justify-items: center;
-  gap: 14px;
-  margin-top: 18px;
+  gap: 18px;
+  margin-top: 20px;
   text-align: center;
 }
 
@@ -1091,6 +1103,14 @@ textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 7px;
+}
+
+.reviews-link-row .link-button {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 18px;
+  background: #fff;
 }
 
 .review-dot {
@@ -1328,9 +1348,8 @@ textarea:focus {
 }
 
 .contact-actions {
-  display: flex;
-  gap: 14px;
-  align-items: center;
+  display: grid;
+  gap: 12px;
 }
 
 .contacts {
@@ -1362,19 +1381,9 @@ textarea:focus {
   font-weight: 750;
 }
 
-.phone-link {
-  display: inline-flex;
-  margin-top: 24px;
-  color: var(--ink);
-  font-size: 22px;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-  font-weight: 850;
-}
-
 .contact-time {
   display: block;
-  margin-top: 8px;
+  margin-top: 16px;
   color: #9a9b9b;
   font-size: 13px;
 }
@@ -1383,27 +1392,79 @@ textarea:focus {
   margin: 22px 0 0;
 }
 
-.max-link {
-  display: inline-flex;
+.contact-button {
+  min-width: 0;
+  min-height: 58px;
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  min-height: 38px;
+  gap: 10px;
   border: 1px solid #dfe4e2;
-  border-radius: 999px;
+  border-radius: 12px;
   background: #fff;
-  padding: 0 14px 0 10px;
+  padding: 0 18px;
   color: #20272e;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 850;
+  text-decoration: none;
+}
+
+.max-link {
+  border-color: var(--dark);
+  background: #2360f5;
+  color: #fff;
   box-shadow: 0 10px 28px rgba(18, 24, 30, 0.06);
 }
 
 .max-link img {
-  width: 46px;
+  width: 42px;
   height: auto;
   display: block;
   border-radius: 0;
+}
+
+.phone-action {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 58px;
+  border: 1px solid #dfe4e2;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.phone-link {
+  justify-content: flex-start;
+  border: 0;
+  border-radius: 0;
+  font-size: 17px;
+  font-variant-numeric: tabular-nums;
+}
+
+.phone-link svg,
+.copy-phone svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.copy-phone {
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-left: 1px solid #dfe4e2;
+  background: #fff;
+  color: #2f363d;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.copy-phone.copied {
+  background: #f2f7f4;
+  color: #1e6d45;
 }
 
 .map-wrap {
@@ -1997,9 +2058,8 @@ textarea:focus {
   }
 
   .reviews-bottom {
-    flex-direction: column;
-    gap: 13px;
-    margin-top: 8px;
+    gap: 16px;
+    margin-top: 14px;
     text-align: center;
   }
 
@@ -2053,6 +2113,28 @@ textarea:focus {
     display: block;
   }
 
+  .faq-item {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .faq-question {
+    min-height: 58px;
+    padding-inline: 16px;
+    font-size: 15px;
+  }
+
+  .faq-mobile-answer p {
+    margin: 0 14px 14px;
+    border-radius: 8px;
+    background: #f8f9f8;
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
   .contact-card {
     border: 1px solid var(--line);
     border-radius: 8px;
@@ -2062,19 +2144,13 @@ textarea:focus {
   }
 
   .contact-actions {
-    display: flex;
-    align-items: center;
+    display: grid;
     gap: 10px;
     margin: 18px 0 0;
   }
 
   .max-link {
-    width: auto;
-    min-height: 40px;
-  }
-
-  .max-link {
-    border-radius: 999px;
+    width: 100%;
   }
 
   .contact-time {
@@ -2163,22 +2239,16 @@ textarea:focus {
     flex-basis: auto;
   }
 
-  .benefits,
   .steps,
   .review-grid,
   .gallery-grid {
     grid-template-columns: 1fr;
   }
 
-  .benefits,
   .steps,
   .review-grid {
     display: flex;
     grid-template-columns: none;
-  }
-
-  .benefits article {
-    flex-basis: min(190px, 76vw);
   }
 
   .steps article {
@@ -2201,11 +2271,11 @@ textarea:focus {
   }
 
   .contact-actions {
-    align-items: flex-start;
+    align-items: stretch;
   }
 
   .max-link {
-    width: auto;
+    width: 100%;
   }
 
   .modal {
@@ -2269,7 +2339,7 @@ textarea:focus {
   }
 
   .quiz-card {
-    min-height: 0;
+    min-height: 520px;
     padding: 18px;
   }
 
@@ -2348,10 +2418,6 @@ textarea:focus {
     width: 100%;
   }
 
-  .faq-mobile-answer p {
-    padding-right: 0;
-  }
-
   .benefits {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2361,12 +2427,16 @@ textarea:focus {
   .benefits article {
     grid-template-columns: 30px minmax(0, 1fr);
     flex-basis: auto;
-    min-height: 64px;
+    min-height: 60px;
+    align-items: center;
     padding: 10px;
   }
 
   .benefits p {
     min-width: 0;
+    display: flex;
+    align-items: center;
+    min-height: 30px;
     overflow-wrap: anywhere;
   }
 
