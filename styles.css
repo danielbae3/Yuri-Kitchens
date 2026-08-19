@@ -818,10 +818,17 @@ textarea:focus {
 }
 
 .review-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
   gap: 22px;
   margin-top: 20px;
+  overflow-x: auto;
+  padding: 2px 2px 14px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.review-grid::-webkit-scrollbar {
+  display: none;
 }
 
 .reviews-bottom {
@@ -833,7 +840,7 @@ textarea:focus {
 }
 
 .review-dots {
-  display: none;
+  display: flex;
   align-items: center;
   justify-content: center;
   gap: 7px;
@@ -856,6 +863,8 @@ textarea:focus {
 }
 
 .review-card {
+  flex: 0 0 calc((100% - 44px) / 3);
+  scroll-snap-align: start;
   display: grid;
   grid-template-columns: 1fr 100px;
   gap: 18px;
@@ -1083,7 +1092,7 @@ textarea:focus {
 
 .contacts-grid {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 320px 1fr;
   gap: 36px;
   align-items: stretch;
 }
@@ -1106,58 +1115,45 @@ textarea:focus {
   font-weight: 750;
 }
 
+.phone-link {
+  display: inline-flex;
+  margin-top: 24px;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  font-weight: 850;
+}
+
 .contact-time {
   display: block;
+  margin-top: 8px;
   color: #9a9b9b;
   font-size: 13px;
 }
 
 .contact-actions {
-  margin: 24px 0 12px;
+  margin: 22px 0 0;
 }
 
-.call-link,
 .max-link {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  min-height: 42px;
+  gap: 8px;
+  min-height: 38px;
   border: 1px solid #dfe4e2;
   border-radius: 999px;
   background: #fff;
-  padding: 0 16px;
+  padding: 0 14px 0 10px;
   color: #20272e;
   font-size: 13px;
   font-weight: 850;
   box-shadow: 0 10px 28px rgba(18, 24, 30, 0.06);
 }
 
-.call-link {
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  min-height: 58px;
-  min-width: 168px;
-  border-radius: 8px;
-  background: var(--dark);
-  color: #fff;
-  line-height: 1.1;
-}
-
-.call-link span {
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.call-link strong {
-  font-size: 15px;
-  font-weight: 850;
-}
-
 .max-link img {
-  width: 62px;
+  width: 46px;
   height: auto;
   display: block;
   border-radius: 0;
@@ -1420,6 +1416,10 @@ textarea:focus {
   .review-grid,
   .gallery-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .review-card {
+    flex-basis: calc((100% - 22px) / 2);
   }
 }
 
@@ -1766,7 +1766,7 @@ textarea:focus {
   }
 
   .review-card {
-    flex: 0 0 min(330px, 86vw);
+    flex: 0 0 calc((100% - 14px) / 2);
     scroll-snap-align: start;
   }
 
@@ -1840,28 +1840,23 @@ textarea:focus {
   }
 
   .contact-actions {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    align-items: center;
     gap: 10px;
-    margin: 20px 0 10px;
-  }
-
-  .call-link,
-  .max-link {
-    width: 100%;
-    min-height: 52px;
+    margin: 18px 0 0;
   }
 
   .max-link {
-    border-radius: 8px;
+    width: auto;
+    min-height: 40px;
+  }
+
+  .max-link {
+    border-radius: 999px;
   }
 
   .contact-time {
-    margin-bottom: 14px;
-  }
-
-  .contact-card .btn {
-    width: 100%;
+    margin-bottom: 0;
   }
 
   .footer-grid {
@@ -1971,7 +1966,7 @@ textarea:focus {
   }
 
   .review-card {
-    flex-basis: min(310px, 88vw);
+    flex-basis: 100%;
   }
 
   .review-card {
@@ -1983,6 +1978,14 @@ textarea:focus {
     grid-row: auto;
     width: 100%;
     height: 120px;
+  }
+
+  .contact-actions {
+    align-items: flex-start;
+  }
+
+  .max-link {
+    width: auto;
   }
 
   .price-line {
