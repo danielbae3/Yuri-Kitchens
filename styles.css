@@ -186,8 +186,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   min-height: 505px;
   display: flex;
   align-items: stretch;
-  background: linear-gradient(90deg, #ffffff 0%, #ffffff 44%, #fafbfa 100%);
-  border-bottom: 1px solid rgba(237, 240, 239, 0.78);
+  background: var(--paper);
 }
 
 .hero-grid {
@@ -312,8 +311,6 @@ body.nav-open .menu-toggle span:nth-child(3) {
   margin-right: max(-32px, calc((1220px - 100vw) / 2));
   min-height: 505px;
   overflow: hidden;
-  background: var(--soft);
-  box-shadow: inset 1px 0 0 rgba(255,255,255,0.7);
 }
 
 .hero-media img {
@@ -611,8 +608,7 @@ dd {
 }
 
 .calculator-section {
-  background: #fafafa;
-  border-block: 1px solid rgba(237, 240, 239, 0.84);
+  background: var(--paper);
 }
 
 .calculator-grid {
@@ -1198,7 +1194,6 @@ textarea:focus {
 .footer {
   padding: 28px 0 38px;
   background: var(--paper);
-  border-top: 1px solid var(--line);
 }
 
 .footer-grid {
