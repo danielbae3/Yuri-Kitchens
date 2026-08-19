@@ -689,14 +689,6 @@ qsa("[data-close-modal]").forEach((button) => {
 });
 
 const faqItems = qsa(".faq-item");
-const faqPanel = qs(".faq-answer-panel");
-const faqTitle = qs("[data-faq-title]");
-const faqText = qs("[data-faq-text]");
-const faqKicker = qs("[data-faq-kicker]");
-const faqData = faqItems.map((item) => ({
-  title: item.querySelector(".faq-question span").textContent,
-  text: item.querySelector(".faq-mobile-answer p").textContent,
-}));
 
 function setFaq(index) {
   faqItems.forEach((item, itemIndex) => {
@@ -708,12 +700,6 @@ function setFaq(index) {
     button.setAttribute("aria-expanded", String(isActive));
     answer.style.maxHeight = isActive ? `${answer.scrollHeight}px` : "0px";
   });
-
-  faqPanel.classList.remove("is-changing");
-  faqTitle.textContent = faqData[index].title;
-  faqText.textContent = faqData[index].text;
-  faqKicker.textContent = `${String(index + 1).padStart(2, "0")} / ${String(faqData.length).padStart(2, "0")}`;
-  requestAnimationFrame(() => faqPanel.classList.add("is-changing"));
 }
 
 qsa(".faq-question[data-faq]").forEach((button) => {
