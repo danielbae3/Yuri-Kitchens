@@ -8,6 +8,15 @@
   --dark: #182026;
   --wood: #7f7168;
   --shadow: 0 22px 60px rgba(18, 24, 30, 0.052);
+  --ui-surface: #ffffff;
+  --ui-control-bg: #f7f8f7;
+  --ui-border: #e1e6e4;
+  --ui-border-strong: #d2dad7;
+  --ui-radius-sm: 8px;
+  --ui-radius-md: 12px;
+  --ui-control-height: 50px;
+  --ui-shadow-control: 0 12px 30px rgba(18, 24, 30, 0.055);
+  --ui-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -230,11 +239,11 @@ body.nav-open .menu-toggle span:nth-child(3) {
   align-items: center;
   justify-content: center;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: var(--ui-radius-sm);
   padding: 0 30px;
   cursor: pointer;
   font-weight: 750;
-  transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+  transition: transform 180ms var(--ui-ease), background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .btn:hover {
@@ -252,7 +261,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
 
 .btn-light {
   background: #fff;
-  border-color: #c9c8c5;
+  border-color: var(--ui-border-strong);
   color: var(--ink);
 }
 
@@ -1394,52 +1403,84 @@ textarea:focus {
 
 .contact-button {
   min-width: 0;
-  min-height: 52px;
+  min-height: var(--ui-control-height);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  border: 1px solid #dfe4e2;
-  border-radius: 12px;
-  background: #fff;
-  padding: 0 16px;
+  gap: 10px;
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-control-bg);
+  padding: 0 15px;
   color: #20272e;
   font-size: 15px;
-  font-weight: 780;
+  font-weight: 720;
   text-decoration: none;
-  box-shadow: 0 10px 28px rgba(18, 24, 30, 0.045);
+  box-shadow: none;
+  transition: transform 180ms var(--ui-ease), background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-1px);
+  border-color: var(--ui-border-strong);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-control);
+}
+
+.contact-button:active {
+  transform: translateY(0);
 }
 
 .max-link {
-  border-color: var(--line);
-  background: #fff;
-  color: #20272e;
+  width: 100%;
+  justify-content: flex-start;
+  color: #1c242b;
 }
 
-.max-link img {
-  width: 35px;
-  height: auto;
+.max-icon {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: currentColor;
+}
+
+.max-icon svg {
+  width: 23px;
+  height: 23px;
   display: block;
-  border-radius: 0;
+  fill: currentColor;
 }
 
 .phone-action {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 52px;
-  border: 1px solid #dfe4e2;
-  border-radius: 12px;
-  background: #fff;
+  grid-template-columns: minmax(0, 1fr) var(--ui-control-height);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-md);
+  background: var(--ui-control-bg);
   overflow: hidden;
-  box-shadow: 0 10px 28px rgba(18, 24, 30, 0.045);
+  box-shadow: none;
+  transition: transform 180ms var(--ui-ease), background 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.phone-action:hover,
+.phone-action:focus-within {
+  transform: translateY(-1px);
+  border-color: var(--ui-border-strong);
+  background: var(--ui-surface);
+  box-shadow: var(--ui-shadow-control);
 }
 
 .phone-link {
   justify-content: flex-start;
   border: 0;
   border-radius: 0;
+  background: transparent;
   box-shadow: none;
-  font-size: 16px;
-  font-weight: 780;
+  padding: 0 14px;
+  font-size: 15px;
+  font-weight: 720;
   font-variant-numeric: tabular-nums;
 }
 
@@ -1458,11 +1499,16 @@ textarea:focus {
   display: grid;
   place-items: center;
   border: 0;
-  border-left: 1px solid #dfe4e2;
-  background: #fff;
+  border-left: 1px solid var(--ui-border);
+  background: transparent;
   color: #2f363d;
   cursor: pointer;
   transition: background 160ms ease, color 160ms ease;
+}
+
+.copy-phone:hover {
+  background: var(--ui-surface);
+  color: var(--ink);
 }
 
 .copy-phone.copied {
@@ -1859,7 +1905,7 @@ textarea:focus {
   .benefits {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
     margin-top: 2px;
     overflow: visible;
     padding: 0;
@@ -1874,20 +1920,31 @@ textarea:focus {
   }
 
   .benefits article {
-    grid-template-columns: 34px 1fr;
+    grid-template-columns: 32px minmax(0, 1fr);
     align-items: center;
-    min-height: 70px;
-    gap: 10px;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    background: #fff;
-    padding: 12px;
+    min-height: 60px;
+    gap: 9px;
+    border: 1px solid var(--ui-border);
+    border-radius: var(--ui-radius-md);
+    background: var(--ui-control-bg);
+    padding: 10px 12px;
     scroll-snap-align: none;
   }
 
   .benefits p {
-    font-size: 12px;
-    line-height: 1.18;
+    min-width: 0;
+    color: #4b535a;
+    font-size: clamp(12px, 2.8vw, 13px);
+    line-height: 1.16;
+    font-weight: 720;
+    text-wrap: balance;
+  }
+
+  .benefit-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--ui-surface);
+    border-color: var(--ui-border);
   }
 
   .hero-media {
@@ -2424,33 +2481,36 @@ textarea:focus {
   .benefits {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 9px;
+    gap: 8px;
   }
 
   .benefits article {
-    grid-template-columns: 30px minmax(0, 1fr);
+    grid-template-columns: 28px minmax(0, 1fr);
     flex-basis: auto;
-    min-height: 60px;
+    min-height: 56px;
     align-items: center;
-    padding: 10px;
+    gap: 8px;
+    padding: 9px 10px;
   }
 
   .benefits p {
     min-width: 0;
-    display: flex;
-    align-items: center;
-    min-height: 30px;
-    overflow-wrap: anywhere;
+    min-height: auto;
+    color: #485058;
+    font-size: clamp(11.5px, 3.25vw, 12.5px);
+    line-height: 1.12;
+    overflow-wrap: normal;
+    word-break: normal;
   }
 
   .benefit-icon {
-    width: 31px;
-    height: 31px;
+    width: 28px;
+    height: 28px;
   }
 
   .benefit-icon svg {
-    width: 17px;
-    height: 17px;
+    width: 15.5px;
+    height: 15.5px;
   }
 
   .hero-media {
