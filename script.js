@@ -113,11 +113,6 @@ const materialData = {
   },
 };
 
-const formatRub = (value) =>
-  new Intl.NumberFormat("ru-RU", {
-    maximumFractionDigits: 0,
-  }).format(Math.round(value / 100) * 100) + " ₽";
-
 let currentSlide = 0;
 let carouselLocked = false;
 let carouselTouchStart = 0;
@@ -330,72 +325,228 @@ function renderMaterial(key) {
   });
 }
 
-const calcLabels = {
-  type: {
-    linear: "Линейная",
-    corner: "Угловая",
-    uShape: "П-образная",
-    island: "С островом",
+const quizSteps = [
+  {
+    key: "type",
+    kind: "image",
+    title: "Какой тип кухни интересует?",
+    note: "Выберите ближайший вариант планировки. Если точной идеи нет, поможем подобрать.",
+    image: "assets/quiz-types.webp",
+    options: [
+      { value: "linear", label: "Прямая", position: "0% 50%" },
+      { value: "corner", label: "Угловая", position: "25% 50%" },
+      { value: "uShape", label: "П-образная", position: "50% 50%" },
+      { value: "island", label: "С островом", position: "75% 50%" },
+      { value: "unknown", label: "Не знаю", position: "100% 50%" },
+    ],
   },
-  front: {
-    mdf: "МДФ",
-    enamel: "МДФ эмаль",
-    veneer: "Шпон",
-    solid: "Массив",
+  {
+    key: "style",
+    kind: "image",
+    title: "В каком стиле вы хотите кухню?",
+    note: "Это поможет точнее подобрать фасады, фурнитуру и оттенки.",
+    image: "assets/quiz-styles.webp",
+    options: [
+      { value: "classic", label: "Классика", position: "0% 50%" },
+      { value: "modern", label: "Модерн", position: "25% 50%" },
+      { value: "minimal", label: "Минимализм", position: "50% 50%" },
+      { value: "scandi", label: "Скандинавский", position: "75% 50%" },
+      { value: "unknown", label: "Не знаю, нужна помощь", position: "100% 50%" },
+    ],
   },
-  appliances: {
-    yes: "Да",
-    no: "Нет",
+  {
+    key: "term",
+    kind: "radio",
+    title: "Когда планируете установить кухню?",
+    options: [
+      { value: "asap", label: "Как можно быстрее" },
+      { value: "month", label: "В течение месяца" },
+      { value: "twoThree", label: "В течение 2–3 месяцев" },
+      { value: "fourSix", label: "В течение 4–6 месяцев" },
+      { value: "research", label: "Пока присматриваюсь, узнаю цены" },
+    ],
   },
+  {
+    key: "budget",
+    kind: "radio",
+    title: "Какой ориентировочный бюджет вы закладываете?",
+    options: [
+      { value: "100-250", label: "От 100 тыс. до 250 тыс." },
+      { value: "250-400", label: "От 250 тыс. до 400 тыс." },
+      { value: "400-600", label: "От 400 тыс. до 600 тыс." },
+      { value: "600+", label: "От 600 тыс. и выше" },
+    ],
+  },
+  {
+    key: "contact",
+    kind: "contact",
+    title: "Куда прислать результат?",
+    note: "Оставьте телефон, и мы свяжемся удобным способом для уточнения деталей.",
+  },
+];
+
+let quizIndex = 0;
+let quizLocked = false;
+const quizAnswers = {};
+const quizContact = {
+  phone: "",
+  method: "MAX",
+  comment: "",
 };
 
-const calcConfig = {
-  type: {
-    linear: 1,
-    corner: 1.22,
-    uShape: 1.48,
-    island: 1.72,
-  },
-  front: {
-    mdf: 0,
-    enamel: 18500,
-    veneer: 34000,
-    solid: 52000,
-  },
-  countertop: {
-    hpl: 0,
-    quartz: 26000,
-    stone: 36000,
-  },
-};
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (char) => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;",
+  })[char]);
+}
 
-function calculateKitchen() {
-  const form = qs("#kitchenCalc");
-  const data = new FormData(form);
-  const width = Number(data.get("width")) || 3000;
-  const height = Number(data.get("height")) || 2500;
-  const lengthMeters = Math.max(width / 1000, 1.6);
-  const type = data.get("type");
-  const front = data.get("front");
-  const countertop = data.get("countertop");
-  const appliances = data.get("appliances");
-  const softClose = data.get("softClose");
+function renderQuiz() {
+  const body = qs("[data-quiz-body]");
+  const stepLabel = qs("[data-quiz-step]");
+  const progress = qs("[data-quiz-progress]");
+  const back = qs("[data-quiz-back]");
+  const footerText = qs(".quiz-footer p");
+  if (!body || !stepLabel || !progress || !back || !footerText) return;
 
-  const heightExtra = Math.max(height - 2500, 0) * 18;
-  const base = lengthMeters * 24000 * calcConfig.type[type];
-  const total =
-    base +
-    heightExtra +
-    calcConfig.front[front] +
-    calcConfig.countertop[countertop] +
-    (appliances === "yes" ? 6500 : 0) +
-    (softClose === "yes" ? 3100 : 0);
+  const step = quizSteps[quizIndex];
+  stepLabel.textContent = `Шаг ${quizIndex + 1} / ${quizSteps.length}`;
+  progress.style.width = `${((quizIndex + 1) / quizSteps.length) * 100}%`;
+  back.disabled = quizIndex === 0;
+  footerText.textContent =
+    step.kind === "contact"
+      ? "Заполните телефон, чтобы получить результат под вашу кухню."
+      : "Выберите вариант, и квиз перейдет дальше автоматически.";
 
-  qs("[data-result-type]").textContent = calcLabels.type[type];
-  qs("[data-result-size]").textContent = `${width} × ${height} мм`;
-  qs("[data-result-front]").textContent = calcLabels.front[front];
-  qs("[data-result-appliances]").textContent = calcLabels.appliances[appliances];
-  qs("[data-result-price]").textContent = formatRub(total);
+  const note = step.note ? `<p>${step.note}</p>` : "";
+  let content = `<div class="quiz-question"><h2 id="quizTitle">${step.title}</h2>${note}</div>`;
+
+  if (step.kind === "image") {
+    const options = step.options
+      .map(
+        (option) => `
+          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--quiz-image: url('${step.image}'); --quiz-pos: ${option.position};">
+            <span class="quiz-option-media" aria-hidden="true"></span>
+            <strong>${option.label}</strong>
+          </button>`
+      )
+      .join("");
+    content += `<div class="quiz-options image">${options}</div>`;
+  }
+
+  if (step.kind === "radio") {
+    const options = step.options
+      .map(
+        (option) => `
+          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}">
+            <span class="quiz-radio"><strong>${option.label}</strong></span>
+          </button>`
+      )
+      .join("");
+    content += `<div class="quiz-options radio">${options}</div>`;
+  }
+
+  if (step.kind === "contact") {
+    content += `
+      <form class="quiz-contact" data-quiz-contact novalidate>
+        <label>
+          <span>Телефон *</span>
+          <input name="phone" type="tel" placeholder="+7 927 633-21-97" value="${escapeHtml(quizContact.phone)}" required />
+        </label>
+        <div class="quiz-contact-methods" aria-label="Способ связи">
+          <button class="quiz-option ${quizContact.method === "MAX" ? "selected" : ""}" type="button" data-quiz-method="MAX">MAX</button>
+          <button class="quiz-option ${quizContact.method === "Звонок" ? "selected" : ""}" type="button" data-quiz-method="Звонок">Звонок</button>
+        </div>
+        <label>
+          <span>Комментарий</span>
+          <textarea name="comment" rows="3" placeholder="Размеры, пожелания, удобное время">${escapeHtml(quizContact.comment)}</textarea>
+        </label>
+        <p class="quiz-error" data-quiz-error></p>
+        <button class="btn btn-dark" type="submit">Получить результат</button>
+        <p class="quiz-success" data-quiz-success>Спасибо, заявка принята. Мы свяжемся с вами для уточнения расчета.</p>
+      </form>`;
+  }
+
+  body.innerHTML = content;
+}
+
+function goToQuizStep(index) {
+  const body = qs("[data-quiz-body]");
+  quizLocked = true;
+  quizIndex = Math.max(0, Math.min(index, quizSteps.length - 1));
+  if (!body) {
+    renderQuiz();
+    quizLocked = false;
+    return;
+  }
+  body.classList.add("is-switching");
+  window.setTimeout(() => {
+    renderQuiz();
+    body.classList.remove("is-switching");
+    quizLocked = false;
+  }, 160);
+}
+
+function initQuiz() {
+  const body = qs("[data-quiz-body]");
+  const back = qs("[data-quiz-back]");
+  if (!body || !back) return;
+
+  renderQuiz();
+
+  back.addEventListener("click", () => {
+    if (!quizLocked) goToQuizStep(quizIndex - 1);
+  });
+
+  body.addEventListener("click", (event) => {
+    if (quizLocked) return;
+    const method = event.target.closest("[data-quiz-method]");
+    if (method) {
+      quizContact.method = method.dataset.quizMethod;
+      renderQuiz();
+      return;
+    }
+
+    const option = event.target.closest("[data-quiz-option]");
+    if (!option) return;
+    const step = quizSteps[quizIndex];
+    const selected = step.options.find((item) => item.value === option.dataset.quizOption);
+    if (!selected) return;
+
+    quizAnswers[step.key] = selected.label;
+    qsa(".quiz-option").forEach((item) => item.classList.remove("selected"));
+    option.classList.add("selected");
+    quizLocked = true;
+    window.setTimeout(() => goToQuizStep(quizIndex + 1), 190);
+  });
+
+  body.addEventListener("input", (event) => {
+    if (event.target.name === "phone") quizContact.phone = event.target.value;
+    if (event.target.name === "comment") quizContact.comment = event.target.value;
+  });
+
+  body.addEventListener("submit", (event) => {
+    const form = event.target.closest("[data-quiz-contact]");
+    if (!form) return;
+    event.preventDefault();
+    const error = qs("[data-quiz-error]");
+    const success = qs("[data-quiz-success]");
+    quizContact.phone = form.elements.phone.value.trim();
+    quizContact.comment = form.elements.comment.value.trim();
+
+    if (!validatePhone(quizContact.phone)) {
+      error.textContent = "Введите телефон, чтобы мы могли прислать результат.";
+      success.classList.remove("visible");
+      return;
+    }
+
+    error.textContent = "";
+    success.classList.add("visible");
+    form.querySelector(".btn").disabled = true;
+  });
 }
 
 function setModalState(modal, open) {
@@ -405,12 +556,6 @@ function setModalState(modal, open) {
 }
 
 function openRequestModal() {
-  const width = qs('input[name="width"]')?.value || "";
-  const height = qs('input[name="height"]')?.value || "";
-  const sizeInput = qs('#requestForm input[name="size"]');
-  if (width && height && sizeInput && !sizeInput.value) {
-    sizeInput.value = `${width} × ${height} мм`;
-  }
   setModalState(qs("#requestModal"), true);
   setTimeout(() => qs('#requestForm input[name="name"]').focus(), 80);
 }
@@ -450,9 +595,6 @@ qsa("[data-material]").forEach((tab) => {
     renderMaterial(tab.dataset.material);
   });
 });
-
-qs("#kitchenCalc").addEventListener("input", calculateKitchen);
-qs("#kitchenCalc").addEventListener("change", calculateKitchen);
 
 qsa("[data-open-modal]").forEach((button) => {
   button.addEventListener("click", openRequestModal);
@@ -545,5 +687,5 @@ qs("#requestForm").addEventListener("submit", (event) => {
 initKitchenCarousel();
 initReviewScroller();
 renderMaterial("fronts");
-calculateKitchen();
+initQuiz();
 setFaq(0);

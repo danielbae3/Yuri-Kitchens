@@ -138,89 +138,20 @@
       </section>
 
       <section class="section calculator-section" id="calculator">
-        <div class="container calculator-grid">
-          <form class="calculator" id="kitchenCalc">
-            <div class="form-head">
-              <h2>Предварительный расчет кухни</h2>
-              <p>Заполните параметры и мы подготовим ориентировочную стоимость.</p>
+        <div class="container">
+          <section class="quiz-card" aria-labelledby="quizTitle">
+            <div class="quiz-topline">
+              <span data-quiz-step>Шаг 1 / 5</span>
+              <div class="quiz-progress" aria-hidden="true">
+                <span data-quiz-progress></span>
+              </div>
             </div>
-            <label>
-              <span>Тип кухни</span>
-              <span class="select-wrap">
-                <select name="type">
-                  <option value="linear">Линейная</option>
-                  <option value="corner">Угловая</option>
-                  <option value="uShape">П-образная</option>
-                  <option value="island">С островом</option>
-                </select>
-              </span>
-            </label>
-            <div class="size-row">
-              <label>
-                <span>Ширина, мм</span>
-                <input name="width" type="number" min="1600" max="7000" step="100" value="3000" />
-              </label>
-              <label>
-                <span>Высота, мм</span>
-                <input name="height" type="number" min="2100" max="3200" step="50" value="2500" />
-              </label>
+            <div class="quiz-body" data-quiz-body></div>
+            <div class="quiz-footer">
+              <button class="quiz-back" type="button" data-quiz-back disabled aria-label="Назад">←</button>
+              <p>Выберите вариант, и квиз перейдет дальше автоматически.</p>
             </div>
-            <label>
-              <span>Фасады</span>
-              <span class="select-wrap">
-                <select name="front">
-                  <option value="mdf">МДФ</option>
-                  <option value="enamel">МДФ эмаль</option>
-                  <option value="veneer">Шпон</option>
-                  <option value="solid">Массив</option>
-                </select>
-              </span>
-            </label>
-            <label>
-              <span>Встроенная техника</span>
-              <span class="select-wrap">
-                <select name="appliances">
-                  <option value="yes">Да</option>
-                  <option value="no">Нет</option>
-                </select>
-              </span>
-            </label>
-            <label>
-              <span>Материал столешницы</span>
-              <span class="select-wrap">
-                <select name="countertop">
-                  <option value="hpl">HPL</option>
-                  <option value="quartz">Кварц</option>
-                  <option value="stone">Искусственный камень</option>
-                </select>
-              </span>
-            </label>
-            <label>
-              <span>Система плавного закрытия</span>
-              <span class="select-wrap">
-                <select name="softClose">
-                  <option value="yes">Да</option>
-                  <option value="no">Нет</option>
-                </select>
-              </span>
-            </label>
-          </form>
-          <aside class="estimate" aria-live="polite">
-            <h3>Предварительный расчет</h3>
-            <dl>
-              <div><dt>Тип кухни</dt><dd data-result-type>Линейная</dd></div>
-              <div><dt>Размеры</dt><dd data-result-size>3000 × 2500 мм</dd></div>
-              <div><dt>Фасады</dt><dd data-result-front>МДФ</dd></div>
-              <div><dt>Встроенная техника</dt><dd data-result-appliances>Да</dd></div>
-            </dl>
-            <div class="price-line">
-              <span>от</span>
-              <strong data-result-price>81 600 ₽</strong>
-              <em>ориентировочно</em>
-            </div>
-            <button class="btn btn-dark" type="button" data-open-modal>Отправить параметры</button>
-            <p>Мы свяжемся и уточним детали.</p>
-          </aside>
+          </section>
         </div>
       </section>
 
