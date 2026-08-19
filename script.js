@@ -363,6 +363,26 @@ function validatePhone(value) {
   return value.replace(/\D/g, "").length >= 10;
 }
 
+const menuToggle = qs("[data-menu-toggle]");
+const menuClose = qs("[data-menu-close]");
+const navLinks = qsa(".nav a");
+
+function setNavState(open) {
+  document.body.classList.toggle("nav-open", open);
+  menuToggle?.setAttribute("aria-expanded", String(open));
+  menuToggle?.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
+}
+
+menuToggle?.addEventListener("click", () => {
+  setNavState(!document.body.classList.contains("nav-open"));
+});
+
+menuClose?.addEventListener("click", () => setNavState(false));
+
+navLinks.forEach((link) => {
+  link.addEventListener("click", () => setNavState(false));
+});
+
 qsa("[data-material]").forEach((tab) => {
   tab.addEventListener("click", () => {
     qsa("[data-material]").forEach((item) => {
@@ -436,6 +456,7 @@ window.addEventListener("resize", () => {
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") {
+    setNavState(false);
     qsa(".modal.open").forEach((modal) => setModalState(modal, false));
   }
 });
