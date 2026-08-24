@@ -310,6 +310,62 @@ function initReviewScroller() {
   setActiveDot();
 }
 
+function initProcessScroller() {
+  const scroller = qs(".steps");
+  const dots = qs("[data-process-dots]");
+  const cards = qsa(".steps article");
+  if (!scroller || !dots || cards.length < 2) return;
+
+  let ticking = false;
+
+  const setActiveDot = () => {
+    const scrollerLeft = scroller.getBoundingClientRect().left;
+    const activeIndex = cards.reduce(
+      (closest, card, index) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - scrollerLeft);
+        return distance < closest.distance ? { distance, index } : closest;
+      },
+      { distance: Infinity, index: 0 }
+    ).index;
+
+    qsa(".process-dot").forEach((dot, index) => {
+      dot.classList.toggle("active", index === activeIndex);
+      dot.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+    });
+  };
+
+  dots.innerHTML = "";
+  cards.forEach((card, index) => {
+    const dot = document.createElement("button");
+    dot.className = "process-dot";
+    dot.type = "button";
+    dot.setAttribute("aria-label", `Показать этап ${index + 1}`);
+    dot.addEventListener("click", () => {
+      scroller.scrollTo({
+        left: card.offsetLeft - scroller.offsetLeft,
+        behavior: "smooth",
+      });
+    });
+    dots.append(dot);
+  });
+
+  scroller.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setActiveDot();
+        ticking = false;
+      });
+    },
+    { passive: true }
+  );
+
+  window.addEventListener("resize", setActiveDot);
+  setActiveDot();
+}
+
 function renderMaterial(key) {
   const material = materialData[key];
   qs("[data-material-title]").textContent = material.title;
@@ -790,6 +846,7 @@ qs("#requestForm").addEventListener("submit", (event) => {
 
 initKitchenCarousel();
 initReviewScroller();
+initProcessScroller();
 renderMaterial("fronts");
 initQuiz();
 setFaq(0);
