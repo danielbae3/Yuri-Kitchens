@@ -1222,7 +1222,7 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: var(--ui-radius-md);
   background: var(--ui-control-bg);
-  padding: 22px 24px;
+  padding: 28px 30px 30px;
 }
 
 .faq-panel h2 {
@@ -1234,7 +1234,7 @@ textarea:focus {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   column-gap: 56px;
   row-gap: 0;
-  margin-top: 28px;
+  margin-top: 34px;
 }
 
 .faq-item {
@@ -1243,23 +1243,31 @@ textarea:focus {
 
 .faq-question {
   width: 100%;
-  min-height: 50px;
-  display: flex;
+  min-height: 54px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 22px;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   border: 0;
   background: transparent;
-  padding: 4px 0;
+  padding: 7px 0;
   cursor: pointer;
   color: #20272e;
   text-align: left;
-  font-weight: 760;
+  font-weight: 720;
   transition: color 180ms ease;
 }
 
-.faq-question span {
+.faq-question span:not(.faq-number) {
   line-height: 1.25;
+}
+
+.faq-number {
+  color: #98a09c;
+  font-size: 11px;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+  line-height: 1;
 }
 
 .faq-item.active .faq-question {
@@ -1267,9 +1275,9 @@ textarea:focus {
 }
 
 .faq-question svg {
-  flex: 0 0 auto;
   width: 22px;
   height: 22px;
+  justify-self: end;
   border: 1px solid var(--line);
   border-radius: 50%;
   background: #fff;
@@ -1302,10 +1310,10 @@ textarea:focus {
 
 .faq-mobile-answer p {
   margin: 0;
-  padding: 2px 34px 16px 0;
+  padding: 8px 34px 20px 48px;
   color: #555b61;
   font-size: 13.5px;
-  line-height: 1.5;
+  line-height: 1.62;
 }
 
 .cta-strip {
@@ -1943,8 +1951,9 @@ textarea:focus {
   }
 
   .benefits article {
-    grid-template-columns: 28px minmax(0, 1fr);
+    grid-template-columns: 30px minmax(0, 1fr);
     align-items: center;
+    place-items: center start;
     min-height: 58px;
     gap: 9px;
     border: 1px solid var(--ui-border);
@@ -1956,11 +1965,13 @@ textarea:focus {
 
   .benefits p {
     min-width: 0;
-    display: flex;
-    align-items: center;
+    margin: 0;
+    align-self: stretch;
+    display: grid;
+    place-items: center start;
     color: #4b535a;
     font-size: clamp(12px, 2.8vw, 13px);
-    line-height: 1.18;
+    line-height: 1.16;
     font-weight: 720;
   }
 
@@ -2218,19 +2229,19 @@ textarea:focus {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: 32px;
     row-gap: 0;
-    margin-top: 28px;
+    margin-top: 30px;
   }
 
   .faq-question {
-    min-height: 50px;
+    min-height: 52px;
     padding: 4px 0;
     font-size: 15px;
   }
 
   .faq-mobile-answer p {
-    padding: 2px 18px 16px 0;
+    padding: 8px 18px 18px 48px;
     font-size: 14px;
-    line-height: 1.5;
+    line-height: 1.58;
   }
 
   .contact-card {
@@ -2478,28 +2489,19 @@ textarea:focus {
   }
 
   .quiz-scroll-wrap::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 8px;
-    width: 54px;
-    border-radius: 0 10px 10px 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0), #fff 72%);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 160ms ease;
+    content: none;
   }
 
   .quiz-scroll-wrap.can-scroll-next::after {
-    opacity: 1;
+    opacity: 0;
   }
 
   .quiz-options.image {
     display: flex;
     gap: 12px;
     overflow-x: auto;
-    padding: 0 18px 8px;
+    padding: 0 max(18px, 10%) 10px;
+    scroll-padding-inline: max(18px, 10%);
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
   }
@@ -2509,8 +2511,8 @@ textarea:focus {
   }
 
   .quiz-options.image .quiz-option {
-    flex: 0 0 min(180px, 58vw);
-    scroll-snap-align: start;
+    flex: 0 0 min(260px, 80%);
+    scroll-snap-align: center;
   }
 
   .quiz-scroll-hint {
@@ -2611,10 +2613,11 @@ textarea:focus {
   }
 
   .benefits article {
-    grid-template-columns: 28px minmax(0, 1fr);
+    grid-template-columns: 30px minmax(0, 1fr);
     flex-basis: auto;
     min-height: 56px;
     align-items: center;
+    place-items: center start;
     gap: 8px;
     padding: 9px 10px;
   }
@@ -2622,11 +2625,13 @@ textarea:focus {
   .benefits p {
     min-width: 0;
     min-height: auto;
-    display: flex;
-    align-items: center;
+    margin: 0;
+    align-self: stretch;
+    display: grid;
+    place-items: center start;
     color: #485058;
     font-size: clamp(11.5px, 3.25vw, 12.5px);
-    line-height: 1.16;
+    line-height: 1.14;
     overflow-wrap: normal;
     word-break: normal;
   }
@@ -2648,16 +2653,16 @@ textarea:focus {
 
   .faq-list {
     grid-template-columns: 1fr;
-    margin-top: 26px;
+    margin-top: 30px;
   }
 
   .faq-question {
-    min-height: 48px;
+    min-height: 52px;
     padding: 4px 0;
   }
 
   .faq-mobile-answer p {
-    padding: 2px 28px 16px 0;
+    padding: 8px 28px 18px 48px;
   }
 
   .footer nav {

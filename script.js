@@ -565,6 +565,7 @@ function initQuizScroller() {
   });
 
   scroller.addEventListener("scroll", () => requestAnimationFrame(updateState), { passive: true });
+  scroller.scrollTo({ left: 0 });
   window.setTimeout(updateState, 0);
 }
 
