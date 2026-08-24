@@ -2645,6 +2645,7 @@ textarea:focus {
   .quiz-footer {
     align-items: flex-start;
     gap: 12px;
+    min-height: 48px;
   }
 
   .quiz-footer[hidden] {
@@ -2652,7 +2653,21 @@ textarea:focus {
   }
 
   .quiz-footer p {
+    max-width: 270px;
     font-size: 12px;
+    line-height: 1.45;
+    text-align: left;
+  }
+
+  .quiz-card.is-first-step .quiz-footer {
+    align-items: center;
+  }
+
+  .quiz-card.is-first-step .quiz-back {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
   }
 
   .map-wrap,
