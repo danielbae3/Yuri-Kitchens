@@ -199,11 +199,12 @@ body.nav-open .menu-toggle span:nth-child(3) {
   display: flex;
   align-items: stretch;
   background: var(--paper);
+  overflow: hidden;
 }
 
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(360px, 0.76fr) minmax(480px, 1.24fr);
+  grid-template-columns: minmax(340px, 0.84fr) minmax(560px, 1.16fr);
   grid-template-rows: auto 1fr;
   gap: 44px;
   align-items: stretch;
@@ -320,7 +321,9 @@ body.nav-open .menu-toggle span:nth-child(3) {
 .hero-media {
   grid-column: 2;
   grid-row: 1 / span 2;
-  margin-right: 0;
+  justify-self: start;
+  width: min(58vw, 1040px);
+  margin-right: clamp(-96px, -4vw, -36px);
   min-height: 505px;
   overflow: hidden;
 }
@@ -329,7 +332,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: 54% center;
 }
 
 .section {
@@ -388,7 +391,7 @@ h2 {
   flex: 0 0 100%;
   margin: 0;
   aspect-ratio: 16 / 9;
-  height: clamp(360px, 50vh, 520px);
+  height: clamp(480px, 58vh, 640px);
   min-height: 0;
   overflow: hidden;
   background: #f5f6f5;
@@ -722,7 +725,7 @@ dd {
 .quiz-scroll-wrap {
   min-width: 0;
   max-width: 100%;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
 }
 
@@ -924,6 +927,11 @@ dd {
 
 .quiz-back[hidden] {
   display: none;
+}
+
+.quiz-back.is-placeholder {
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .quiz-back:not(:disabled):hover {
@@ -1222,19 +1230,22 @@ textarea:focus {
   border: 1px solid var(--line);
   border-radius: var(--ui-radius-md);
   background: var(--ui-control-bg);
-  padding: 28px 30px 30px;
+  padding: 30px;
 }
 
 .faq-panel h2 {
   font-size: clamp(24px, 2vw, 32px);
 }
 
+.faq-content {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(360px, 1.05fr);
+  gap: 34px;
+  margin-top: 34px;
+}
+
 .faq-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 56px;
-  row-gap: 0;
-  margin-top: 34px;
 }
 
 .faq-item {
@@ -1243,7 +1254,7 @@ textarea:focus {
 
 .faq-question {
   width: 100%;
-  min-height: 54px;
+  min-height: 58px;
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr) 22px;
   align-items: center;
@@ -1295,7 +1306,7 @@ textarea:focus {
 }
 
 .faq-mobile-answer {
-  display: block;
+  display: none;
   overflow: hidden;
   max-height: 0;
   opacity: 0;
@@ -1314,6 +1325,47 @@ textarea:focus {
   color: #555b61;
   font-size: 13.5px;
   line-height: 1.62;
+}
+
+.faq-answer-panel {
+  align-self: stretch;
+  min-height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  padding: 28px;
+  box-shadow: 0 18px 44px rgba(18, 24, 30, 0.05);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.faq-answer-panel.is-updating {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.faq-answer-panel span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  color: #98a09c;
+  font-size: 12px;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+}
+
+.faq-answer-panel h3 {
+  max-width: 420px;
+  margin: 22px 0 0;
+  font-size: clamp(22px, 1.8vw, 30px);
+  line-height: 1.14;
+}
+
+.faq-answer-panel p {
+  max-width: 520px;
+  margin: 22px 0 0;
+  color: #555b61;
+  font-size: 15px;
+  line-height: 1.68;
 }
 
 .cta-strip {
@@ -1764,6 +1816,7 @@ textarea:focus {
     height: clamp(260px, 42vw, 360px);
     min-height: 0;
     aspect-ratio: 16 / 9;
+    width: 100%;
     margin: 0;
     overflow: hidden;
     border-radius: 8px;
@@ -2114,8 +2167,7 @@ textarea:focus {
   }
 
   .quiz-card.is-first-step {
-    min-height: 0;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto minmax(0, 1fr) auto;
   }
 
   .quiz-topline > span {
@@ -2225,11 +2277,23 @@ textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .faq-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 32px;
-    row-gap: 0;
+  .faq-content {
+    display: block;
     margin-top: 30px;
+  }
+
+  .faq-list {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+    margin-top: 0;
+  }
+
+  .faq-answer-panel {
+    display: none;
+  }
+
+  .faq-mobile-answer {
+    display: block;
   }
 
   .faq-question {
@@ -2239,6 +2303,7 @@ textarea:focus {
   }
 
   .faq-mobile-answer p {
+    display: block;
     padding: 8px 18px 18px 48px;
     font-size: 14px;
     line-height: 1.58;
@@ -2456,7 +2521,7 @@ textarea:focus {
   }
 
   .quiz-card.is-first-step {
-    grid-template-rows: auto auto;
+    grid-template-rows: auto auto auto;
   }
 
   .quiz-topline {
@@ -2486,6 +2551,7 @@ textarea:focus {
 
   .quiz-scroll-wrap {
     margin-inline: -18px;
+    overflow: hidden;
   }
 
   .quiz-scroll-wrap::after {
@@ -2500,8 +2566,9 @@ textarea:focus {
     display: flex;
     gap: 12px;
     overflow-x: auto;
-    padding: 0 max(18px, 10%) 10px;
-    scroll-padding-inline: max(18px, 10%);
+    padding: 0 64px 10px 18px;
+    scroll-padding-left: 18px;
+    scroll-padding-right: 64px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
   }
@@ -2512,7 +2579,7 @@ textarea:focus {
 
   .quiz-options.image .quiz-option {
     flex: 0 0 min(260px, 80%);
-    scroll-snap-align: center;
+    scroll-snap-align: start;
   }
 
   .quiz-scroll-hint {
@@ -2653,7 +2720,7 @@ textarea:focus {
 
   .faq-list {
     grid-template-columns: 1fr;
-    margin-top: 30px;
+    margin-top: 0;
   }
 
   .faq-question {
