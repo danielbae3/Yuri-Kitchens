@@ -750,42 +750,19 @@ qsa("[data-close-modal]").forEach((button) => {
 });
 
 const faqItems = qsa(".faq-item");
-const faqPanel = qs("[data-faq-panel]");
-const faqPanelNumber = qs("[data-faq-panel-number]");
-const faqPanelTitle = qs("[data-faq-panel-title]");
-const faqPanelText = qs("[data-faq-panel-text]");
 
 function setFaq(index) {
-  let activeData = null;
-
   faqItems.forEach((item, itemIndex) => {
     const isActive = itemIndex === index;
     const button = item.querySelector(".faq-question");
-    const answer = item.querySelector(".faq-mobile-answer");
-    const question = item.querySelector(".faq-question span:not(.faq-number)");
+    const answer = item.querySelector(".faq-answer");
 
     item.classList.toggle("active", isActive);
-    button.setAttribute("aria-expanded", String(isActive));
-    answer.style.maxHeight = isActive ? `${answer.scrollHeight}px` : "0px";
-
-    if (isActive) {
-      activeData = {
-        number: item.querySelector(".faq-number")?.textContent.trim() || "",
-        title: question?.textContent.trim() || "",
-        text: answer.querySelector("p")?.textContent.trim() || "",
-      };
+    button?.setAttribute("aria-expanded", String(isActive));
+    if (answer) {
+      answer.style.maxHeight = isActive ? `${answer.scrollHeight}px` : "0px";
     }
   });
-
-  if (activeData && faqPanel && faqPanelNumber && faqPanelTitle && faqPanelText) {
-    faqPanel.classList.add("is-updating");
-    faqPanelNumber.textContent = activeData.number;
-    faqPanelTitle.textContent = activeData.title;
-    faqPanelText.textContent = activeData.text;
-    window.requestAnimationFrame(() => {
-      faqPanel.classList.remove("is-updating");
-    });
-  }
 }
 
 qsa(".faq-question[data-faq]").forEach((button) => {
@@ -795,7 +772,7 @@ qsa(".faq-question[data-faq]").forEach((button) => {
 });
 
 window.addEventListener("resize", () => {
-  qsa(".faq-item.active .faq-mobile-answer").forEach((answer) => {
+  qsa(".faq-item.active .faq-answer").forEach((answer) => {
     answer.style.maxHeight = `${answer.scrollHeight}px`;
   });
 });

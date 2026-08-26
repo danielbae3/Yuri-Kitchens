@@ -18,10 +18,7 @@
     <header class="site-header">
       <div class="container header-grid">
         <a class="logo" href="#top" aria-label="GRANIT-LUX">
-          <picture>
-            <source srcset="assets/logo-granitlux.webp" type="image/webp" />
-            <img src="assets/logo-granitlux.png" width="870" height="178" alt="GRANIT-LUX корпусная мебель" />
-          </picture>
+          <img src="assets/logo-granitlux-wordmark.png" width="2145" height="349" alt="GRANIT-LUX корпусная мебель" />
         </a>
         <nav class="nav" aria-label="Основная навигация">
           <a href="#kitchens">Кухни</a>
@@ -48,41 +45,29 @@
       <section class="hero" id="top">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <h1>Кухни на заказ в Ульяновске</h1>
+            <h1><span>Кухни на заказ</span><span>в Ульяновске</span></h1>
             <p>Проектируем и создаем кухни, в которых каждый день - в удовольствие.</p>
             <div class="hero-actions">
               <a class="btn btn-dark" href="#calculator">Рассчитать кухню</a>
-              <button class="btn btn-light" type="button" data-open-modal>Вызвать замерщика</button>
+              <button class="btn btn-light hero-secondary" type="button" data-open-modal>Оставить заявку <span aria-hidden="true">→</span></button>
+            </div>
+            <div class="benefits" aria-label="Преимущества">
+              <article>
+                <p>Производство</p>
+              </article>
+              <article>
+                <p>Проект под размер</p>
+              </article>
+              <article>
+                <p>Гарантия 24 месяца</p>
+              </article>
+              <article>
+                <p>Срок от 21 дня</p>
+              </article>
             </div>
           </div>
           <div class="hero-media">
             <img src="assets/hero-premium.png" alt="Светлая современная кухня с островом" />
-          </div>
-          <div class="benefits" aria-label="Преимущества">
-            <article>
-              <span class="benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M4 20V9.5L12 4l8 5.5V20"/><path d="M8 20v-8h8v8"/><path d="M10 16h4"/></svg>
-              </span>
-              <p>Производство</p>
-            </article>
-            <article>
-              <span class="benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M5 18.5V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v12.5"/><path d="M8 8h8"/><path d="M8 12h5"/><path d="M4 20h16"/></svg>
-              </span>
-              <p>Проект под размер</p>
-            </article>
-            <article>
-              <span class="benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.4-2.7 8.4-7 10-4.3-1.6-7-5.6-7-10V6l7-3z"/><path d="M8.5 12l2.2 2.2 4.8-5"/></svg>
-              </span>
-              <p>Гарантия 24 месяца</p>
-            </article>
-            <article>
-              <span class="benefit-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M7 3v3"/><path d="M17 3v3"/><path d="M4 9h16"/><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M9 14h3v3"/></svg>
-              </span>
-              <p>Срок от 21 дня</p>
-            </article>
           </div>
         </div>
       </section>
@@ -239,63 +224,69 @@
       <section class="section faq" id="faq">
         <div class="container">
           <div class="faq-panel">
-            <h2>Часто задаваемые вопросы</h2>
+            <div class="faq-intro">
+              <h2>Часто задаваемые вопросы</h2>
+              <p>Ответили на основные вопросы о заказе и установке кухонь.</p>
+              <svg class="faq-illustration" viewBox="0 0 280 120" aria-hidden="true" focusable="false">
+                <path d="M10 98H268" />
+                <path d="M14 62H146V98H14Z" />
+                <path d="M27 62V98M58 62V98M94 62V98M129 62V98" />
+                <path d="M23 76H42M67 76H86M103 76H122" />
+                <path d="M150 98H196V74H150Z" />
+                <path d="M161 74C165 60 174 50 188 44" />
+                <path d="M174 60C170 52 169 46 172 38" />
+                <path d="M181 54C190 49 196 43 199 34" />
+                <path d="M166 71C158 66 154 59 154 50" />
+                <path d="M219 98H253V80H219Z" />
+                <path d="M224 80C227 70 233 64 242 60" />
+                <path d="M236 72C243 68 248 62 250 54" />
+              </svg>
+            </div>
             <div class="faq-content">
               <div class="faq-list" role="list">
                 <article class="faq-item active">
                   <button class="faq-question" type="button" aria-expanded="true" data-faq="0">
-                    <span class="faq-number">01</span>
-                    <span>Как получить предварительный расчет?</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>Сколько занимает изготовление кухни?</span>
+                    <span class="faq-toggle" aria-hidden="true"></span>
                   </button>
-                  <div class="faq-mobile-answer"><p>Пройдите квиз или оставьте заявку. Мы уточним размеры и подготовим расчет.</p></div>
+                  <div class="faq-answer"><p>Сроки зависят от сложности и выбранных материалов. В среднем изготовление занимает от 21 дня. Точный срок назовем после утверждения проекта.</p></div>
                 </article>
                 <article class="faq-item">
                   <button class="faq-question" type="button" aria-expanded="false" data-faq="1">
-                    <span class="faq-number">02</span>
-                    <span>От чего зависит стоимость кухни?</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>Как происходит замер?</span>
+                    <span class="faq-toggle" aria-hidden="true"></span>
                   </button>
-                  <div class="faq-mobile-answer"><p>На цену влияют размеры, фасады, столешница, фурнитура, техника и сложность монтажа.</p></div>
+                  <div class="faq-answer"><p>Мастер приезжает на объект, фиксирует размеры, коммуникации и особенности помещения. После замера готовим проект и расчет.</p></div>
                 </article>
                 <article class="faq-item">
                   <button class="faq-question" type="button" aria-expanded="false" data-faq="2">
-                    <span class="faq-number">03</span>
-                    <span>Какие материалы и фурнитуру вы используете?</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>Можно ли выбрать материалы и фурнитуру?</span>
+                    <span class="faq-toggle" aria-hidden="true"></span>
                   </button>
-                  <div class="faq-mobile-answer"><p>Работаем с МДФ, эмалью, шпоном, HPL, кварцем и надежной фурнитурой с доводчиками.</p></div>
+                  <div class="faq-answer"><p>Да. Подберем фасады, столешницу, корпус, фурнитуру и наполнение под ваш стиль, бюджет и сценарии использования.</p></div>
                 </article>
                 <article class="faq-item">
                   <button class="faq-question" type="button" aria-expanded="false" data-faq="3">
-                    <span class="faq-number">04</span>
-                    <span>Можно ли внести изменения в проект?</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>Как проходит установка кухни?</span>
+                    <span class="faq-toggle" aria-hidden="true"></span>
                   </button>
-                  <div class="faq-mobile-answer"><p>Да, до утверждения спецификации мы корректируем планировку, материалы и комплектацию.</p></div>
+                  <div class="faq-answer"><p>Доставляем готовые модули, собираем кухню на месте, выставляем уровни, крепим элементы и проверяем работу фурнитуры.</p></div>
                 </article>
                 <article class="faq-item">
                   <button class="faq-question" type="button" aria-expanded="false" data-faq="4">
-                    <span class="faq-number">05</span>
-                    <span>Вы изготавливаете только кухни?</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>Есть ли доставка?</span>
+                    <span class="faq-toggle" aria-hidden="true"></span>
                   </button>
-                  <div class="faq-mobile-answer"><p>Основное направление - кухни, также можем обсудить шкафы и встроенную мебель в том же стиле.</p></div>
+                  <div class="faq-answer"><p>Да, организуем доставку кухни до объекта и заранее согласуем удобное время привоза и монтажа.</p></div>
                 </article>
                 <article class="faq-item">
                   <button class="faq-question" type="button" aria-expanded="false" data-faq="5">
-                    <span class="faq-number">06</span>
-                    <span>Как проходит замер?</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                    <span>Как производится оплата?</span>
+                    <span class="faq-toggle" aria-hidden="true"></span>
                   </button>
-                  <div class="faq-mobile-answer"><p>Замеряем помещение, фиксируем коммуникации и обсуждаем удобную планировку на месте.</p></div>
+                  <div class="faq-answer"><p>Условия оплаты обсуждаем после утверждения проекта и сметы. Все этапы и суммы фиксируем до запуска кухни в производство.</p></div>
                 </article>
               </div>
-              <aside class="faq-answer-panel" data-faq-panel aria-live="polite">
-                <span data-faq-panel-number>01</span>
-                <h3 data-faq-panel-title>Как получить предварительный расчет?</h3>
-                <p data-faq-panel-text>Пройдите квиз или оставьте заявку. Мы уточним размеры и подготовим расчет.</p>
-              </aside>
             </div>
           </div>
         </div>
@@ -361,10 +352,7 @@
     <footer class="footer">
       <div class="container footer-grid">
         <a class="logo" href="#top" aria-label="GRANIT-LUX">
-          <picture>
-            <source srcset="assets/logo-granitlux.webp" type="image/webp" />
-            <img src="assets/logo-granitlux.png" width="870" height="178" alt="GRANIT-LUX корпусная мебель" />
-          </picture>
+          <img src="assets/logo-granitlux-wordmark.png" width="2145" height="349" alt="GRANIT-LUX корпусная мебель" />
         </a>
         <nav aria-label="Навигация в футере">
           <a href="#kitchens">Кухни</a>
