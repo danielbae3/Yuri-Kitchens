@@ -85,28 +85,27 @@ img {
 .header-grid {
   min-height: 72px;
   display: grid;
-  grid-template-columns: 155px minmax(0, 1fr) max-content;
+  grid-template-columns: 190px minmax(0, 1fr) max-content;
   align-items: center;
   gap: 24px;
 }
 
 .logo {
   display: inline-flex;
-  flex-direction: column;
-  line-height: 1;
-  font-weight: 800;
+  align-items: center;
+  width: clamp(154px, 11vw, 188px);
+  line-height: 0;
 }
 
-.logo span {
-  font-size: 30px;
-  letter-spacing: 1px;
+.logo picture,
+.logo img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
-.logo small {
-  margin-top: 5px;
-  color: #9ba0a4;
-  font-size: 9px;
-  font-weight: 600;
+.logo img {
+  object-fit: contain;
 }
 
 .nav {
@@ -1633,14 +1632,8 @@ textarea:focus {
 }
 
 .footer .logo {
-  flex-direction: column;
   align-items: flex-start;
-  gap: 4px;
-}
-
-.footer .logo span {
-  font-size: 28px;
-  font-family: inherit;
+  width: 190px;
 }
 
 .footer nav {
@@ -2364,8 +2357,12 @@ textarea:focus {
     width: min(100% - 24px, 520px);
   }
 
-  .logo span {
-    font-size: 23px;
+  .header-grid > .logo {
+    width: 136px;
+  }
+
+  .footer .logo {
+    width: 170px;
   }
 
   .header-grid {
