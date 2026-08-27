@@ -148,7 +148,8 @@
             <div class="quiz-body" data-quiz-body></div>
             <div class="quiz-footer">
               <button class="quiz-back" type="button" data-quiz-back disabled aria-label="Назад">
-                <span aria-hidden="true">←</span>
+                <span class="quiz-back-icon" aria-hidden="true">←</span>
+                <span class="quiz-back-label">Назад</span>
               </button>
               <p>Выберите вариант, и квиз перейдет дальше автоматически.</p>
               <button class="quiz-next" type="button" data-quiz-next disabled>Далее</button>
@@ -377,7 +378,7 @@
           </label>
           <label>
             <span>Телефон</span>
-            <input name="phone" type="tel" placeholder="+7 927 633-21-97" required />
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (927) 633-21-97" required />
           </label>
           <label>
             <span>Размеры кухни</span>

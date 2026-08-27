@@ -480,6 +480,7 @@ function renderQuiz() {
   back.hidden = false;
   next.disabled = !hasAnswer || isContactStep;
   next.classList.toggle("is-hidden", isContactStep);
+  footer.classList.toggle("is-contact-step", isContactStep);
   footer.hidden = false;
   footerText.textContent =
     isContactStep
@@ -530,7 +531,7 @@ function renderQuiz() {
       <form class="quiz-contact" data-quiz-contact novalidate>
         <label class="quiz-contact-field">
           <span>Телефон *</span>
-          <input name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 927 633-21-97" value="${escapeHtml(quizContact.phone)}" required />
+          <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (927) 633-21-97" value="${escapeHtml(quizContact.phone)}" required />
         </label>
         <fieldset class="quiz-contact-method">
           <legend>Как связаться?</legend>
@@ -550,6 +551,7 @@ function renderQuiz() {
   }
 
   body.innerHTML = content;
+  initPhoneMasks(body);
   initQuizScroller();
 }
 
@@ -619,7 +621,11 @@ function initQuiz() {
     const method = event.target.closest("[data-quiz-method]");
     if (method) {
       quizContact.method = method.dataset.quizMethod;
-      renderQuiz();
+      method.closest(".quiz-contact-methods").querySelectorAll("[data-quiz-method]").forEach((item) => {
+        const selected = item === method;
+        item.classList.toggle("selected", selected);
+        item.setAttribute("aria-pressed", String(selected));
+      });
       return;
     }
 
@@ -651,12 +657,15 @@ function initQuiz() {
     quizContact.comment = form.elements.comment.value.trim();
 
     if (!validatePhone(quizContact.phone)) {
-      error.textContent = "Введите телефон, чтобы мы могли прислать результат.";
+      error.textContent = "Введите номер полностью: +7 (___) ___-__-__.";
       success.classList.remove("visible");
+      form.elements.phone.setAttribute("aria-invalid", "true");
+      form.elements.phone.focus();
       return;
     }
 
     error.textContent = "";
+    form.elements.phone.removeAttribute("aria-invalid");
     form.classList.add("is-success");
     success.classList.add("visible");
     form.querySelector(".btn").disabled = true;
@@ -674,8 +683,69 @@ function openRequestModal() {
   setTimeout(() => qs('#requestForm input[name="name"]').focus(), 80);
 }
 
+function getRussianPhoneDigits(value) {
+  let digits = String(value || "").replace(/\D/g, "");
+  if (!digits) return "";
+  if (digits.startsWith("8")) digits = `7${digits.slice(1)}`;
+  if (!digits.startsWith("7")) digits = `7${digits}`;
+  return digits.slice(0, 11);
+}
+
+function formatRussianPhone(value) {
+  const digits = getRussianPhoneDigits(value);
+  if (!digits) return "";
+
+  const local = digits.slice(1);
+  let formatted = "+7";
+  if (local.length > 0) formatted += ` (${local.slice(0, 3)}`;
+  if (local.length >= 3) formatted += ")";
+  if (local.length > 3) formatted += ` ${local.slice(3, 6)}`;
+  if (local.length > 6) formatted += `-${local.slice(6, 8)}`;
+  if (local.length > 8) formatted += `-${local.slice(8, 10)}`;
+  return formatted;
+}
+
 function validatePhone(value) {
-  return value.replace(/\D/g, "").length >= 10;
+  return /^7\d{10}$/.test(getRussianPhoneDigits(value));
+}
+
+function initPhoneMasks(root = document) {
+  root.querySelectorAll("[data-phone-mask]").forEach((input) => {
+    if (input.dataset.phoneMaskReady === "true") return;
+    input.dataset.phoneMaskReady = "true";
+
+    input.addEventListener("focus", () => {
+      if (!input.value) {
+        input.value = "+7 (";
+        input.setSelectionRange(input.value.length, input.value.length);
+      }
+    });
+
+    input.addEventListener("input", () => {
+      input.value = formatRussianPhone(input.value);
+      if (validatePhone(input.value)) {
+        input.removeAttribute("aria-invalid");
+        const quizError = input.closest("[data-quiz-contact]")?.querySelector("[data-quiz-error]");
+        if (quizError) quizError.textContent = "";
+        const formError = input.closest("#requestForm")?.querySelector("[data-form-error]");
+        if (formError?.textContent.startsWith("Введите номер полностью")) formError.style.display = "none";
+      }
+      requestAnimationFrame(() => input.setSelectionRange(input.value.length, input.value.length));
+    });
+
+    input.addEventListener("paste", (event) => {
+      event.preventDefault();
+      input.value = formatRussianPhone(event.clipboardData.getData("text"));
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+
+    input.addEventListener("blur", () => {
+      if (getRussianPhoneDigits(input.value) === "7") {
+        input.value = "";
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      }
+    });
+  });
 }
 
 const menuToggle = qs("[data-menu-toggle]");
@@ -855,12 +925,14 @@ qs("#requestForm").addEventListener("submit", (event) => {
   }
 
   if (!validatePhone(phone)) {
-    error.textContent = "Укажите телефон в корректном формате.";
+    error.textContent = "Введите номер полностью: +7 (___) ___-__-__.";
     error.style.display = "block";
+    form.elements.phone.setAttribute("aria-invalid", "true");
     form.elements.phone.focus();
     return;
   }
 
+  form.elements.phone.removeAttribute("aria-invalid");
   success.style.display = "block";
   form.reset();
 });
@@ -869,5 +941,6 @@ initKitchenCarousel();
 initReviewScroller();
 initProcessScroller();
 renderMaterial("fronts");
+initPhoneMasks();
 initQuiz();
 setFaq(0);
