@@ -208,25 +208,38 @@ body.nav-open .menu-toggle span:nth-child(3) {
   min-height: clamp(590px, calc(100vh - 78px), 760px);
   display: flex;
   align-items: stretch;
-  background: var(--paper);
+  position: relative;
+  isolation: isolate;
+  background: #e9e2da;
   overflow: hidden;
 }
 
+.hero::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(255, 253, 250, 0.97) 0%, rgba(255, 253, 250, 0.91) 28%, rgba(255, 253, 250, 0.56) 46%, rgba(255, 253, 250, 0.1) 64%, transparent 78%);
+}
+
 .hero-grid {
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  display: grid;
-  grid-template-columns: minmax(420px, 45%) minmax(0, 55%);
-  gap: 0;
+  width: min(100% - 64px, 1220px);
+  min-height: inherit;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  z-index: 2;
   align-items: stretch;
 }
 
 .hero-copy {
+  width: min(100%, 640px);
+  min-height: inherit;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(56px, 7vh, 86px) clamp(24px, 2.2vw, 36px) clamp(48px, 6vh, 76px) max(32px, calc((100vw - 1220px) / 2));
+  padding: clamp(56px, 7vh, 86px) 0 clamp(48px, 6vh, 76px);
 }
 
 .hero h1 {
@@ -299,24 +312,28 @@ body.nav-open .menu-toggle span:nth-child(3) {
 }
 
 .hero-secondary {
-  gap: 9px;
-  border-color: transparent;
-  background: transparent;
-  padding-inline: 10px;
+  border-color: rgba(49, 56, 63, 0.72);
+  background: rgba(255, 255, 255, 0.68);
+  padding-inline: 28px;
   color: #31383f;
-  box-shadow: none;
+  box-shadow: 0 2px 12px rgba(36, 42, 47, 0.06);
 }
 
 .hero-secondary:hover {
-  border-color: transparent;
-  background: #f7f8f7;
+  border-color: #31383f;
+  background: #fff;
+}
+
+.hero-secondary:active {
+  transform: translateY(0) scale(0.98);
 }
 
 .benefits {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, max-content);
   gap: 0;
-  max-width: 560px;
+  width: fit-content;
+  max-width: 100%;
   margin-top: clamp(48px, 6.2vh, 70px);
   padding: 0;
 }
@@ -325,12 +342,15 @@ body.nav-open .menu-toggle span:nth-child(3) {
   min-width: 0;
   display: flex;
   align-items: flex-start;
-  padding-right: 18px;
+  padding-inline: 14px;
+}
+
+.benefits article:first-child {
+  padding-left: 0;
 }
 
 .benefits article + article {
   border-left: 1px solid var(--line);
-  padding-left: 18px;
 }
 
 .benefits p {
@@ -342,9 +362,10 @@ body.nav-open .menu-toggle span:nth-child(3) {
 }
 
 .hero-media {
-  grid-column: 2;
+  position: absolute;
+  z-index: 0;
+  inset: 0;
   width: 100%;
-  min-height: 100%;
   margin: 0;
   overflow: hidden;
 }
@@ -663,8 +684,8 @@ dd {
 }
 
 .quiz-card {
-  width: min(960px, 100%);
-  height: 520px;
+  width: min(800px, 100%);
+  height: 480px;
   margin-inline: auto;
   min-width: 0;
   display: grid;
@@ -721,6 +742,17 @@ dd {
   transform: translateY(6px);
 }
 
+@media (min-width: 821px) {
+  .quiz-body.is-options-step {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .quiz-body.is-options-step .quiz-scroll-wrap,
+  .quiz-body.is-options-step .quiz-options.radio {
+    align-self: center;
+  }
+}
+
 .quiz-question {
   min-width: 0;
   max-width: 680px;
@@ -753,17 +785,18 @@ dd {
   max-width: 100%;
   overflow: hidden;
   position: relative;
+  background: transparent;
 }
 
 .quiz-options.image {
   display: flex;
   gap: 12px;
   overflow-x: auto;
-  padding: 2px 54px 12px 2px;
-  scroll-padding-left: 2px;
-  scroll-padding-right: 54px;
+  padding: 2px 14px 12px;
+  scroll-padding-inline: 14px;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  background: transparent;
 }
 
 .quiz-options.image::-webkit-scrollbar {
@@ -771,7 +804,7 @@ dd {
 }
 
 .quiz-options.image .quiz-option {
-  flex: 0 0 clamp(220px, 30%, 280px);
+  flex: 0 0 clamp(220px, calc((100% - 52px) / 3), 236px);
   scroll-snap-align: start;
 }
 
@@ -818,7 +851,8 @@ dd {
 }
 
 .quiz-options.radio {
-  max-width: 680px;
+  width: min(640px, 100%);
+  margin-inline: auto;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
@@ -841,8 +875,8 @@ dd {
   border-radius: 10px;
   background: #fff;
   padding: 8px 8px 12px;
-  box-shadow: 0 18px 42px rgba(18, 24, 31, 0.07);
-  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+  box-shadow: none;
+  transition: transform 180ms ease, border-color 180ms ease;
 }
 
 .quiz-option-media {
@@ -878,7 +912,6 @@ dd {
 .quiz-options.image .quiz-option:hover,
 .quiz-options.image .quiz-option.selected {
   border-color: #9aa39f;
-  box-shadow: 0 20px 44px rgba(18, 24, 31, 0.12);
   transform: translateY(-2px);
 }
 
@@ -925,13 +958,21 @@ dd {
 }
 
 .quiz-contact {
-  max-width: 540px;
+  max-width: 720px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 8px;
+  gap: 10px;
+}
+
+.quiz-contact-row {
+  display: grid;
+  grid-template-columns: 340px 220px;
+  align-items: end;
+  gap: 12px;
 }
 
 .quiz-contact-field {
+  min-width: 0;
   gap: 5px;
 }
 
@@ -946,6 +987,7 @@ dd {
   margin: 0;
   border: 0;
   padding: 0;
+  align-self: end;
 }
 
 .quiz-contact-method legend {
@@ -957,7 +999,7 @@ dd {
 }
 
 .quiz-contact-methods {
-  width: min(100%, 320px);
+  width: 100%;
   display: inline-grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
@@ -971,15 +1013,15 @@ dd {
   align-self: center;
 }
 
-.quiz-contact > .btn {
-  width: 240px;
-  min-height: 44px;
-  justify-self: start;
-}
-
 .quiz-contact input {
   min-height: 44px;
   height: 44px;
+}
+
+.quiz-contact textarea {
+  min-height: 88px;
+  height: 88px;
+  resize: vertical;
 }
 
 .quiz-contact-methods .quiz-option {
@@ -2013,27 +2055,11 @@ textarea:focus {
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 0;
   }
 
   .hero-copy {
-    padding: 46px 0 0;
-  }
-
-  .hero-media {
-    height: clamp(260px, 42vw, 360px);
-    min-height: 0;
-    aspect-ratio: 16 / 9;
-    width: 100%;
-    margin: 0;
-    overflow: hidden;
-    border-radius: 8px;
-  }
-
-  .hero-media img {
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
+    padding: 46px 0;
   }
 
   .benefits {
@@ -2173,13 +2199,24 @@ textarea:focus {
 
   .hero {
     min-height: auto;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    background: var(--paper);
+  }
+
+  .hero::before {
+    display: none;
   }
 
   .hero-grid {
     width: min(100% - 32px, 760px);
     max-width: 760px;
     margin: 0 auto;
+    order: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    min-height: 0;
   }
 
   .section {
@@ -2187,6 +2224,8 @@ textarea:focus {
   }
 
   .hero-copy {
+    width: 100%;
+    min-height: 0;
     padding: 34px 0 0;
   }
 
@@ -2268,11 +2307,17 @@ textarea:focus {
   }
 
   .hero-media {
+    position: relative;
+    z-index: auto;
+    inset: auto;
     height: clamp(214px, 56vw, 310px);
     min-height: 0;
     aspect-ratio: 16 / 11;
+    order: 2;
+    width: min(100% - 32px, 760px);
     overflow: hidden;
-    margin-bottom: 2px;
+    margin: 0 auto 2px;
+    border-radius: 12px;
   }
 
   .hero-media img {
@@ -2398,7 +2443,7 @@ textarea:focus {
   }
 
   .quiz-card {
-    height: 540px;
+    height: auto;
     padding: 22px;
   }
 
@@ -2422,6 +2467,15 @@ textarea:focus {
 
   .quiz-question p {
     font-size: 14.5px;
+  }
+
+  .quiz-contact {
+    max-width: 100%;
+  }
+
+  .quiz-contact-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
   .steps,
@@ -2634,6 +2688,10 @@ textarea:focus {
   .hero-grid {
     width: min(100% - 24px, 520px);
     max-width: 520px;
+  }
+
+  .hero-media {
+    width: min(100% - 24px, 520px);
   }
 
   .hero h1 {
@@ -2861,11 +2919,6 @@ textarea:focus {
     gap: 8px;
   }
 
-  .quiz-contact > .btn {
-    width: 100%;
-    justify-self: stretch;
-  }
-
   .quiz-footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: center;
@@ -2899,14 +2952,6 @@ textarea:focus {
     display: inline;
     font-size: 13px;
     font-weight: 700;
-  }
-
-  .quiz-footer.is-contact-step {
-    grid-template-columns: 1fr;
-  }
-
-  .quiz-footer.is-contact-step .quiz-next {
-    display: none;
   }
 
   .map-wrap,
@@ -3012,7 +3057,8 @@ textarea:focus {
 
 @media (max-width: 400px) {
   .container,
-  .hero-grid {
+  .hero-grid,
+  .hero-media {
     width: min(100% - 20px, 380px);
   }
 

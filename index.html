@@ -46,13 +46,19 @@
 
     <main>
       <section class="hero" id="top">
+        <picture class="hero-media" aria-hidden="true">
+          <source media="(max-width: 820px)" srcset="assets/hero-walnut-mobile.avif" type="image/avif" />
+          <source media="(max-width: 820px)" srcset="assets/hero-walnut-mobile.webp" type="image/webp" />
+          <source srcset="assets/hero-walnut-desktop.avif" type="image/avif" />
+          <img src="assets/hero-walnut-desktop.webp" alt="" fetchpriority="high" decoding="async" />
+        </picture>
         <div class="container hero-grid">
           <div class="hero-copy">
             <h1><span>Кухни на заказ</span><span>в Ульяновске</span></h1>
             <p>Проектируем и создаем кухни, в которых каждый день - в удовольствие.</p>
             <div class="hero-actions">
               <a class="btn btn-dark" href="#calculator">Рассчитать кухню</a>
-              <button class="btn btn-light hero-secondary" type="button" data-open-modal>Оставить заявку <span aria-hidden="true">→</span></button>
+              <button class="btn btn-light hero-secondary" type="button" data-open-modal>Оставить заявку</button>
             </div>
             <div class="benefits" aria-label="Преимущества">
               <article>
@@ -68,9 +74,6 @@
                 <p>Срок от 21 дня</p>
               </article>
             </div>
-          </div>
-          <div class="hero-media">
-            <img src="assets/hero-premium.png" alt="Светлая современная кухня с островом" />
           </div>
         </div>
       </section>

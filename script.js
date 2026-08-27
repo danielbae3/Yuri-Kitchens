@@ -416,8 +416,7 @@ const quizSteps = [
     title: "Когда планируете установить кухню?",
     options: [
       { value: "asap", label: "Как можно быстрее" },
-      { value: "month", label: "В течение месяца" },
-      { value: "twoThree", label: "В течение 2–3 месяцев" },
+      { value: "oneThree", label: "В течение 1–3 месяцев" },
       { value: "fourSix", label: "В течение 4–6 месяцев" },
       { value: "research", label: "Пока присматриваюсь, узнаю цены" },
     ],
@@ -466,9 +465,10 @@ function renderQuiz() {
   const progress = qs("[data-quiz-progress]");
   const back = qs("[data-quiz-back]");
   const next = qs("[data-quiz-next]");
+  const quizCard = qs(".quiz-card");
   const footer = qs(".quiz-footer");
   const footerText = qs(".quiz-footer p");
-  if (!body || !stepLabel || !progress || !back || !next || !footer || !footerText) return;
+  if (!body || !stepLabel || !progress || !back || !next || !quizCard || !footer || !footerText) return;
 
   const step = quizSteps[quizIndex];
   const isFirstStep = quizIndex === 0;
@@ -478,8 +478,18 @@ function renderQuiz() {
   progress.style.width = `${((quizIndex + 1) / quizSteps.length) * 100}%`;
   back.disabled = isFirstStep;
   back.hidden = false;
-  next.disabled = !hasAnswer || isContactStep;
-  next.classList.toggle("is-hidden", isContactStep);
+  next.disabled = isContactStep ? false : !hasAnswer;
+  next.textContent = isContactStep ? "Получить результат" : "Далее";
+  next.type = isContactStep ? "submit" : "button";
+  next.classList.toggle("is-hidden", false);
+  next.classList.toggle("is-contact-submit", isContactStep);
+  if (isContactStep) {
+    next.setAttribute("form", "quizContactForm");
+  } else {
+    next.removeAttribute("form");
+  }
+  quizCard.classList.toggle("is-contact-step", isContactStep);
+  body.classList.toggle("is-options-step", !isContactStep);
   footer.classList.toggle("is-contact-step", isContactStep);
   footer.hidden = false;
   footerText.textContent =
@@ -528,24 +538,25 @@ function renderQuiz() {
 
   if (step.kind === "contact") {
     content += `
-      <form class="quiz-contact" data-quiz-contact novalidate>
-        <label class="quiz-contact-field">
-          <span>Телефон *</span>
-          <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (927) 633-21-97" value="${escapeHtml(quizContact.phone)}" required />
-        </label>
-        <fieldset class="quiz-contact-method">
-          <legend>Как связаться?</legend>
-          <div class="quiz-contact-methods">
-            <button class="quiz-option ${quizContact.method === "MAX" ? "selected" : ""}" type="button" data-quiz-method="MAX" aria-pressed="${quizContact.method === "MAX"}">MAX</button>
-            <button class="quiz-option ${quizContact.method === "Звонок" ? "selected" : ""}" type="button" data-quiz-method="Звонок" aria-pressed="${quizContact.method === "Звонок"}">Звонок</button>
-          </div>
-        </fieldset>
+      <form class="quiz-contact" id="quizContactForm" data-quiz-contact novalidate>
+        <div class="quiz-contact-row">
+          <label class="quiz-contact-field">
+            <span>Телефон *</span>
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (927) 633-21-97" value="${escapeHtml(quizContact.phone)}" required />
+          </label>
+          <fieldset class="quiz-contact-method">
+            <legend>Как связаться?</legend>
+            <div class="quiz-contact-methods">
+              <button class="quiz-option ${quizContact.method === "MAX" ? "selected" : ""}" type="button" data-quiz-method="MAX" aria-pressed="${quizContact.method === "MAX"}">MAX</button>
+              <button class="quiz-option ${quizContact.method === "Звонок" ? "selected" : ""}" type="button" data-quiz-method="Звонок" aria-pressed="${quizContact.method === "Звонок"}">Звонок</button>
+            </div>
+          </fieldset>
+        </div>
         <label class="quiz-contact-field">
           <span>Комментарий <small>необязательно</small></span>
-          <input name="comment" type="text" autocomplete="off" placeholder="Размеры, пожелания, удобное время" value="${escapeHtml(quizContact.comment)}" />
+          <textarea name="comment" autocomplete="off" placeholder="Размеры, пожелания, удобное время">${escapeHtml(quizContact.comment)}</textarea>
         </label>
         <p class="quiz-error" data-quiz-error></p>
-        <button class="btn btn-dark" type="submit">Получить результат</button>
         <p class="quiz-success" data-quiz-success>Спасибо, заявка принята. Мы свяжемся с вами для уточнения расчета.</p>
       </form>`;
   }
@@ -668,7 +679,7 @@ function initQuiz() {
     form.elements.phone.removeAttribute("aria-invalid");
     form.classList.add("is-success");
     success.classList.add("visible");
-    form.querySelector(".btn").disabled = true;
+    next.disabled = true;
   });
 }
 
