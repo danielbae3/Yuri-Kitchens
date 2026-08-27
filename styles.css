@@ -2034,16 +2034,23 @@ textarea:focus {
   }
 
   .header-grid {
-    grid-template-columns: 140px minmax(0, 1fr);
+    grid-template-columns: 140px minmax(0, 1fr) max-content;
+    gap: clamp(12px, 1.6vw, 22px);
+  }
+
+  .header-grid > .logo {
+    width: 140px;
   }
 
   .nav {
-    order: 3;
-    grid-column: 1 / -1;
-    justify-content: flex-start;
-    overflow-x: auto;
-    padding-bottom: 10px;
-    scrollbar-width: thin;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 22px);
+    font-size: clamp(12px, 1.25vw, 14px);
+    white-space: nowrap;
+  }
+
+  .nav a {
+    white-space: nowrap;
   }
 
   .header-contact {
