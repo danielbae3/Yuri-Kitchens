@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start:cms": "node scripts/serve-cms.mjs",
+    "start": "node scripts/serve-cms.mjs"
+  }
+}
