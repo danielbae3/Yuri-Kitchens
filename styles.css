@@ -84,14 +84,24 @@ img {
 }
 
 .site-header {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 20;
   background: rgba(255, 255, 255, 0.94);
   border-bottom: 1px solid rgba(237, 240, 239, 0.92);
   backdrop-filter: blur(18px);
-  transform: translate3d(0, 0, 0);
-  transition: transform 220ms var(--ui-ease), box-shadow 180ms ease;
+  transition: box-shadow 180ms ease;
+}
+
+@media (min-width: 821px) {
+  html,
+  body {
+    overflow-x: clip;
+  }
+
+  .site-header {
+    position: sticky;
+    top: 0;
+  }
 }
 
 .header-grid {
@@ -378,7 +388,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
 }
 
 .section {
-  padding: 38px 0;
+  padding: clamp(56px, 5vw, 76px) 0;
 }
 
 h2 {
@@ -1462,7 +1472,6 @@ textarea:focus {
 }
 
 .faq {
-  padding-top: 16px;
   background: var(--paper);
 }
 
@@ -1607,10 +1616,6 @@ textarea:focus {
   line-height: 1.56;
 }
 
-.cta-strip {
-  padding-top: 16px;
-}
-
 .cta-panel {
   min-height: 132px;
   display: grid;
@@ -1659,10 +1664,6 @@ textarea:focus {
 .contact-actions {
   display: grid;
   gap: 12px;
-}
-
-.contacts {
-  padding-top: 22px;
 }
 
 .contacts-grid {
@@ -2115,10 +2116,6 @@ textarea:focus {
     z-index: 40;
   }
 
-  body.header-hidden:not(.nav-open):not(.modal-open) .site-header {
-    transform: translate3d(0, -100%, 0);
-  }
-
   .header-grid {
     min-height: 66px;
     grid-template-columns: minmax(0, 1fr) auto auto;
@@ -2220,7 +2217,7 @@ textarea:focus {
   }
 
   .section {
-    padding: 30px 0;
+    padding: 48px 0;
   }
 
   .hero-copy {
@@ -2653,6 +2650,10 @@ textarea:focus {
     width: min(100% - 24px, 520px);
   }
 
+  .section {
+    padding-block: 36px;
+  }
+
   .header-grid > .logo {
     width: 152px;
   }
@@ -2820,7 +2821,7 @@ textarea:focus {
   }
 
   .calculator-section {
-    padding-block: 24px;
+    padding-block: 36px;
   }
 
   .quiz-card {
@@ -3086,7 +3087,7 @@ textarea:focus {
   }
 
   .section {
-    padding-block: 24px;
+    padding-block: 32px;
   }
 
   .hero-copy {
