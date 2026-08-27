@@ -217,7 +217,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   max-width: none;
   margin: 0;
   display: grid;
-  grid-template-columns: minmax(420px, 43.5%) minmax(0, 56.5%);
+  grid-template-columns: minmax(420px, 45%) minmax(0, 55%);
   gap: 0;
   align-items: stretch;
 }
@@ -226,13 +226,13 @@ body.nav-open .menu-toggle span:nth-child(3) {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(56px, 7vh, 86px) clamp(28px, 3.8vw, 64px) clamp(48px, 6vh, 76px) max(32px, calc((100vw - 1220px) / 2));
+  padding: clamp(56px, 7vh, 86px) clamp(24px, 2.2vw, 36px) clamp(48px, 6vh, 76px) max(32px, calc((100vw - 1220px) / 2));
 }
 
 .hero h1 {
   max-width: 650px;
   margin: 0;
-  font-size: clamp(50px, 4.45vw, 74px);
+  font-size: clamp(50px, 4.25vw, 70px);
   line-height: 1.06;
   font-weight: 600;
 }
@@ -316,7 +316,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
-  max-width: 610px;
+  max-width: 560px;
   margin-top: clamp(48px, 6.2vh, 70px);
   padding: 0;
 }
@@ -325,18 +325,18 @@ body.nav-open .menu-toggle span:nth-child(3) {
   min-width: 0;
   display: flex;
   align-items: flex-start;
-  padding-right: 24px;
+  padding-right: 18px;
 }
 
 .benefits article + article {
   border-left: 1px solid var(--line);
-  padding-left: 24px;
+  padding-left: 18px;
 }
 
 .benefits p {
   margin: 0;
   color: #3e464d;
-  font-size: 16px;
+  font-size: 14.5px;
   line-height: 1.25;
   font-weight: 500;
 }
@@ -353,7 +353,7 @@ body.nav-open .menu-toggle span:nth-child(3) {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 58% center;
+  object-position: 54% center;
 }
 
 .section {
