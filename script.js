@@ -799,6 +799,21 @@ qsa("[data-close-modal]").forEach((button) => {
   button.addEventListener("click", () => setModalState(qs("#requestModal"), false));
 });
 
+function setRequestMethod(form, method) {
+  form.elements.method.value = method;
+  form.querySelectorAll("[data-request-method]").forEach((button) => {
+    const selected = button.dataset.requestMethod === method;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+}
+
+qsa("[data-request-method]").forEach((button) => {
+  button.addEventListener("click", () => {
+    setRequestMethod(button.closest("#requestForm"), button.dataset.requestMethod);
+  });
+});
+
 const faqItems = qsa(".faq-item");
 
 function setFaq(index) {
@@ -901,6 +916,7 @@ qs("#requestForm").addEventListener("submit", (event) => {
   form.elements.phone.removeAttribute("aria-invalid");
   success.style.display = "block";
   form.reset();
+  setRequestMethod(form, "MAX");
 });
 
 initKitchenCarousel();
