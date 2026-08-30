@@ -440,14 +440,7 @@ const quizSteps = [
   },
 ];
 
-let quizIndex = 0;
-let quizLocked = false;
-const quizAnswers = {};
-const quizContact = {
-  phone: "",
-  method: "MAX",
-  comment: "",
-};
+const quizInstances = [];
 
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({
@@ -459,116 +452,9 @@ function escapeHtml(value) {
   })[char]);
 }
 
-function renderQuiz() {
-  const body = qs("[data-quiz-body]");
-  const stepLabel = qs("[data-quiz-step]");
-  const progress = qs("[data-quiz-progress]");
-  const back = qs("[data-quiz-back]");
-  const next = qs("[data-quiz-next]");
-  const quizCard = qs(".quiz-card");
-  const footer = qs(".quiz-footer");
-  const footerText = qs(".quiz-footer p");
-  if (!body || !stepLabel || !progress || !back || !next || !quizCard || !footer || !footerText) return;
-
-  const step = quizSteps[quizIndex];
-  const isFirstStep = quizIndex === 0;
-  const isContactStep = step.kind === "contact";
-  const hasAnswer = !isContactStep && Boolean(quizAnswers[step.key]);
-  stepLabel.textContent = `Шаг ${quizIndex + 1} / ${quizSteps.length}`;
-  progress.style.width = `${((quizIndex + 1) / quizSteps.length) * 100}%`;
-  back.disabled = isFirstStep;
-  back.hidden = false;
-  next.disabled = isContactStep ? false : !hasAnswer;
-  next.textContent = isContactStep ? "Получить результат" : "Далее";
-  next.type = isContactStep ? "submit" : "button";
-  next.classList.toggle("is-hidden", false);
-  next.classList.toggle("is-contact-submit", isContactStep);
-  if (isContactStep) {
-    next.setAttribute("form", "quizContactForm");
-  } else {
-    next.removeAttribute("form");
-  }
-  quizCard.classList.toggle("is-contact-step", isContactStep);
-  body.classList.toggle("is-options-step", !isContactStep);
-  footer.classList.toggle("is-contact-step", isContactStep);
-  footer.hidden = false;
-  footerText.textContent =
-    isContactStep
-      ? "Заполните телефон, чтобы получить результат под вашу кухню."
-      : hasAnswer
-      ? "Ответ сохранён. Можно изменить выбор или продолжить."
-      : "Выберите вариант, и квиз перейдет дальше автоматически.";
-
-  const note = step.note ? `<p>${step.note}</p>` : "";
-  let content = `<div class="quiz-question"><h2 id="quizTitle">${step.title}</h2>${note}</div>`;
-
-  if (step.kind === "image") {
-    const options = step.options
-      .map(
-        (option, index) => `
-          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--i: ${index}; --quiz-image: url('${step.image}'); --quiz-pos: ${option.position};">
-            <span class="quiz-option-media" aria-hidden="true"></span>
-            <strong>${option.label}</strong>
-          </button>`
-      )
-      .join("");
-    content += `
-      <div class="quiz-scroll-wrap" data-quiz-scroll-wrap>
-        <button class="quiz-scroll-hint prev" type="button" aria-label="Показать предыдущие варианты" data-quiz-scroll="prev">
-          <span aria-hidden="true">‹</span>
-        </button>
-        <div class="quiz-options image" data-quiz-options>${options}</div>
-        <button class="quiz-scroll-hint next" type="button" aria-label="Показать следующие варианты" data-quiz-scroll="next">
-          <span aria-hidden="true">›</span>
-        </button>
-      </div>`;
-  }
-
-  if (step.kind === "radio") {
-    const options = step.options
-      .map(
-        (option, index) => `
-          <button class="quiz-option ${quizAnswers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--i: ${index};">
-            <span class="quiz-radio"><strong>${option.label}</strong></span>
-          </button>`
-      )
-      .join("");
-    content += `<div class="quiz-options radio">${options}</div>`;
-  }
-
-  if (step.kind === "contact") {
-    content += `
-      <form class="quiz-contact" id="quizContactForm" data-quiz-contact novalidate>
-        <div class="quiz-contact-row">
-          <label class="quiz-contact-field">
-            <span>Телефон *</span>
-            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (927) 633-21-97" value="${escapeHtml(quizContact.phone)}" required />
-          </label>
-          <fieldset class="quiz-contact-method">
-            <legend>Как связаться?</legend>
-            <div class="quiz-contact-methods">
-              <button class="quiz-option ${quizContact.method === "MAX" ? "selected" : ""}" type="button" data-quiz-method="MAX" aria-pressed="${quizContact.method === "MAX"}">MAX</button>
-              <button class="quiz-option ${quizContact.method === "Звонок" ? "selected" : ""}" type="button" data-quiz-method="Звонок" aria-pressed="${quizContact.method === "Звонок"}">Звонок</button>
-            </div>
-          </fieldset>
-        </div>
-        <label class="quiz-contact-field">
-          <span>Комментарий <small>необязательно</small></span>
-          <textarea name="comment" autocomplete="off" placeholder="Размеры, пожелания, удобное время">${escapeHtml(quizContact.comment)}</textarea>
-        </label>
-        <p class="quiz-error" data-quiz-error></p>
-        <p class="quiz-success" data-quiz-success>Спасибо, заявка принята. Мы свяжемся с вами для уточнения расчета.</p>
-      </form>`;
-  }
-
-  body.innerHTML = content;
-  initPhoneMasks(body);
-  initQuizScroller();
-}
-
-function initQuizScroller() {
-  const wrap = qs("[data-quiz-scroll-wrap]");
-  const scroller = qs("[data-quiz-options]");
+function initQuizScroller(root) {
+  const wrap = root.querySelector("[data-quiz-scroll-wrap]");
+  const scroller = root.querySelector("[data-quiz-options]");
   if (!wrap || !scroller) return;
 
   const updateState = () => {
@@ -577,7 +463,7 @@ function initQuizScroller() {
     wrap.classList.toggle("can-scroll-next", scroller.scrollLeft < maxScroll);
   };
 
-  qsa("[data-quiz-scroll]").forEach((button) => {
+  wrap.querySelectorAll("[data-quiz-scroll]").forEach((button) => {
     button.addEventListener("click", () => {
       const direction = button.dataset.quizScroll === "prev" ? -1 : 1;
       const firstOption = scroller.querySelector(".quiz-option");
@@ -591,47 +477,180 @@ function initQuizScroller() {
   window.setTimeout(updateState, 0);
 }
 
-function goToQuizStep(index) {
-  const body = qs("[data-quiz-body]");
-  quizLocked = true;
-  quizIndex = Math.max(0, Math.min(index, quizSteps.length - 1));
-  if (!body) {
-    renderQuiz();
-    quizLocked = false;
-    return;
+function createQuiz(root, instanceIndex) {
+  const state = {
+    index: 0,
+    locked: false,
+    submitted: false,
+    answers: {},
+    contact: {
+      phone: "",
+      method: "MAX",
+      comment: "",
+    },
+  };
+  const titleId = root.classList.contains("modal-quiz-card") ? "requestQuizTitle" : "quizTitle";
+  const formId = `quizContactForm${instanceIndex + 1}`;
+
+  function render() {
+    const body = root.querySelector("[data-quiz-body]");
+    const stepLabel = root.querySelector("[data-quiz-step]");
+    const progress = root.querySelector("[data-quiz-progress]");
+    const back = root.querySelector("[data-quiz-back]");
+    const next = root.querySelector("[data-quiz-next]");
+    const footer = root.querySelector(".quiz-footer");
+    const footerText = root.querySelector(".quiz-footer p");
+    if (!body || !stepLabel || !progress || !back || !next || !footer || !footerText) return;
+
+    const step = quizSteps[state.index];
+    const isFirstStep = state.index === 0;
+    const isContactStep = step.kind === "contact";
+    const hasAnswer = !isContactStep && Boolean(state.answers[step.key]);
+    stepLabel.textContent = `Шаг ${state.index + 1} / ${quizSteps.length}`;
+    progress.style.width = `${((state.index + 1) / quizSteps.length) * 100}%`;
+    back.disabled = state.submitted || isFirstStep;
+    back.hidden = false;
+    next.disabled = state.submitted ? true : isContactStep ? false : !hasAnswer;
+    next.textContent = isContactStep ? "Отправить заявку" : "Далее";
+    next.type = isContactStep ? "submit" : "button";
+    next.classList.toggle("is-hidden", false);
+    next.classList.toggle("is-contact-submit", isContactStep);
+    if (isContactStep) {
+      next.setAttribute("form", formId);
+    } else {
+      next.removeAttribute("form");
+    }
+    root.classList.toggle("is-contact-step", isContactStep);
+    body.classList.toggle("is-options-step", !isContactStep);
+    footer.classList.toggle("is-contact-step", isContactStep);
+    footer.hidden = false;
+    footerText.textContent =
+      isContactStep
+        ? "Заполните телефон, чтобы отправить заявку."
+        : hasAnswer
+        ? "Ответ сохранён. Можно изменить выбор или продолжить."
+        : "Выберите вариант, и квиз перейдет дальше автоматически.";
+
+    const note = step.note ? `<p>${step.note}</p>` : "";
+    let content = `<div class="quiz-question"><h2 id="${titleId}">${step.title}</h2>${note}</div>`;
+
+    if (step.kind === "image") {
+      const options = step.options
+        .map(
+          (option, index) => `
+            <button class="quiz-option ${state.answers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--i: ${index}; --quiz-image: url('${step.image}'); --quiz-pos: ${option.position};">
+              <span class="quiz-option-media" aria-hidden="true"></span>
+              <strong>${option.label}</strong>
+            </button>`
+        )
+        .join("");
+      content += `
+        <div class="quiz-scroll-wrap" data-quiz-scroll-wrap>
+          <button class="quiz-scroll-hint prev" type="button" aria-label="Показать предыдущие варианты" data-quiz-scroll="prev">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <div class="quiz-options image" data-quiz-options>${options}</div>
+          <button class="quiz-scroll-hint next" type="button" aria-label="Показать следующие варианты" data-quiz-scroll="next">
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>`;
+    }
+
+    if (step.kind === "radio") {
+      const options = step.options
+        .map(
+          (option, index) => `
+            <button class="quiz-option ${state.answers[step.key] === option.label ? "selected" : ""}" type="button" data-quiz-option="${option.value}" style="--i: ${index};">
+              <span class="quiz-radio"><strong>${option.label}</strong></span>
+            </button>`
+        )
+        .join("");
+      content += `<div class="quiz-options radio">${options}</div>`;
+    }
+
+    if (step.kind === "contact") {
+      content += `
+        <form class="quiz-contact ${state.submitted ? "is-success" : ""}" id="${formId}" data-quiz-contact novalidate>
+          <div class="quiz-contact-row">
+            <label class="quiz-contact-field">
+              <span>Телефон *</span>
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (___) ___-__-__" value="${escapeHtml(state.contact.phone)}" required />
+            </label>
+            <fieldset class="quiz-contact-method">
+              <legend>Как связаться?</legend>
+              <div class="quiz-contact-methods">
+                <button class="quiz-option ${state.contact.method === "MAX" ? "selected" : ""}" type="button" data-quiz-method="MAX" aria-pressed="${state.contact.method === "MAX"}">MAX</button>
+                <button class="quiz-option ${state.contact.method === "Звонок" ? "selected" : ""}" type="button" data-quiz-method="Звонок" aria-pressed="${state.contact.method === "Звонок"}">Звонок</button>
+              </div>
+            </fieldset>
+          </div>
+          <label class="quiz-contact-field">
+            <span>Комментарий <small>необязательно</small></span>
+            <textarea name="comment" autocomplete="off" placeholder="Размеры, пожелания, удобное время">${escapeHtml(state.contact.comment)}</textarea>
+          </label>
+          <p class="quiz-error" data-quiz-error></p>
+          <p class="quiz-success ${state.submitted ? "visible" : ""}" data-quiz-success>Спасибо, заявка принята. Мы свяжемся с вами для уточнения расчета.</p>
+        </form>`;
+    }
+
+    body.innerHTML = content;
+    initPhoneMasks(body);
+    initQuizScroller(root);
   }
-  body.classList.add("is-switching");
-  window.setTimeout(() => {
-    renderQuiz();
-    body.classList.remove("is-switching");
-    quizLocked = false;
-  }, 160);
-}
 
-function initQuiz() {
-  const body = qs("[data-quiz-body]");
-  const back = qs("[data-quiz-back]");
-  const next = qs("[data-quiz-next]");
-  if (!body || !back || !next) return;
+  function goToStep(index) {
+    const body = root.querySelector("[data-quiz-body]");
+    state.locked = true;
+    state.index = Math.max(0, Math.min(index, quizSteps.length - 1));
+    if (!body) {
+      render();
+      state.locked = false;
+      return;
+    }
+    body.classList.add("is-switching");
+    window.setTimeout(() => {
+      render();
+      body.classList.remove("is-switching");
+      state.locked = false;
+    }, 160);
+  }
 
-  renderQuiz();
+  function reset() {
+    if (state.submitted) return;
+    state.index = 0;
+    state.locked = false;
+    state.answers = {};
+    state.contact = {
+      phone: "",
+      method: "MAX",
+      comment: "",
+    };
+    render();
+  }
+
+  const body = root.querySelector("[data-quiz-body]");
+  const back = root.querySelector("[data-quiz-back]");
+  const next = root.querySelector("[data-quiz-next]");
+  if (!body || !back || !next) return null;
+
+  render();
 
   back.addEventListener("click", () => {
-    if (!quizLocked) goToQuizStep(quizIndex - 1);
+    if (!state.locked) goToStep(state.index - 1);
   });
 
   next.addEventListener("click", () => {
-    const step = quizSteps[quizIndex];
-    if (!quizLocked && step.kind !== "contact" && quizAnswers[step.key]) {
-      goToQuizStep(quizIndex + 1);
+    const step = quizSteps[state.index];
+    if (!state.locked && step.kind !== "contact" && state.answers[step.key]) {
+      goToStep(state.index + 1);
     }
   });
 
   body.addEventListener("click", (event) => {
-    if (quizLocked) return;
+    if (state.locked || state.submitted) return;
     const method = event.target.closest("[data-quiz-method]");
-    if (method) {
-      quizContact.method = method.dataset.quizMethod;
+    if (method && root.contains(method)) {
+      state.contact.method = method.dataset.quizMethod;
       method.closest(".quiz-contact-methods").querySelectorAll("[data-quiz-method]").forEach((item) => {
         const selected = item === method;
         item.classList.toggle("selected", selected);
@@ -641,33 +660,33 @@ function initQuiz() {
     }
 
     const option = event.target.closest("[data-quiz-option]");
-    if (!option) return;
-    const step = quizSteps[quizIndex];
-    const selected = step.options.find((item) => item.value === option.dataset.quizOption);
+    if (!option || !root.contains(option)) return;
+    const step = quizSteps[state.index];
+    const selected = step.options?.find((item) => item.value === option.dataset.quizOption);
     if (!selected) return;
 
-    quizAnswers[step.key] = selected.label;
-    qsa(".quiz-option").forEach((item) => item.classList.remove("selected"));
+    state.answers[step.key] = selected.label;
+    root.querySelectorAll(".quiz-option").forEach((item) => item.classList.remove("selected"));
     option.classList.add("selected");
-    quizLocked = true;
-    window.setTimeout(() => goToQuizStep(quizIndex + 1), 190);
+    state.locked = true;
+    window.setTimeout(() => goToStep(state.index + 1), 190);
   });
 
   body.addEventListener("input", (event) => {
-    if (event.target.name === "phone") quizContact.phone = event.target.value;
-    if (event.target.name === "comment") quizContact.comment = event.target.value;
+    if (event.target.name === "phone") state.contact.phone = event.target.value;
+    if (event.target.name === "comment") state.contact.comment = event.target.value;
   });
 
   body.addEventListener("submit", (event) => {
     const form = event.target.closest("[data-quiz-contact]");
-    if (!form) return;
+    if (!form || !root.contains(form)) return;
     event.preventDefault();
-    const error = qs("[data-quiz-error]");
-    const success = qs("[data-quiz-success]");
-    quizContact.phone = form.elements.phone.value.trim();
-    quizContact.comment = form.elements.comment.value.trim();
+    const error = form.querySelector("[data-quiz-error]");
+    const success = form.querySelector("[data-quiz-success]");
+    state.contact.phone = form.elements.phone.value.trim();
+    state.contact.comment = form.elements.comment.value.trim();
 
-    if (!validatePhone(quizContact.phone)) {
+    if (!validatePhone(state.contact.phone)) {
       error.textContent = "Введите номер полностью: +7 (___) ___-__-__.";
       success.classList.remove("visible");
       form.elements.phone.setAttribute("aria-invalid", "true");
@@ -679,7 +698,18 @@ function initQuiz() {
     form.elements.phone.removeAttribute("aria-invalid");
     form.classList.add("is-success");
     success.classList.add("visible");
+    state.submitted = true;
+    back.disabled = true;
     next.disabled = true;
+  });
+
+  return { root, reset };
+}
+
+function initQuiz() {
+  document.querySelectorAll("[data-quiz-root]").forEach((root, index) => {
+    const instance = createQuiz(root, index);
+    if (instance) quizInstances.push(instance);
   });
 }
 
@@ -690,8 +720,11 @@ function setModalState(modal, open) {
 }
 
 function openRequestModal() {
-  setModalState(qs("#requestModal"), true);
-  setTimeout(() => qs('#requestForm input[name="name"]').focus(), 80);
+  const modal = qs("#requestModal");
+  const modalQuiz = quizInstances.find((instance) => instance.root.closest("#requestModal"));
+  if (modalQuiz?.root.dataset.quizResetOnOpen !== undefined) modalQuiz.reset();
+  setModalState(modal, true);
+  setTimeout(() => modalQuiz?.root.querySelector(".quiz-option, input, textarea, [data-quiz-next]:not([disabled])")?.focus(), 80);
 }
 
 function getRussianPhoneDigits(value) {
@@ -738,8 +771,6 @@ function initPhoneMasks(root = document) {
         input.removeAttribute("aria-invalid");
         const quizError = input.closest("[data-quiz-contact]")?.querySelector("[data-quiz-error]");
         if (quizError) quizError.textContent = "";
-        const formError = input.closest("#requestForm")?.querySelector("[data-form-error]");
-        if (formError?.textContent.startsWith("Введите номер полностью")) formError.style.display = "none";
       }
       requestAnimationFrame(() => input.setSelectionRange(input.value.length, input.value.length));
     });
@@ -797,21 +828,6 @@ qsa("[data-open-modal]").forEach((button) => {
 
 qsa("[data-close-modal]").forEach((button) => {
   button.addEventListener("click", () => setModalState(qs("#requestModal"), false));
-});
-
-function setRequestMethod(form, method) {
-  form.elements.method.value = method;
-  form.querySelectorAll("[data-request-method]").forEach((button) => {
-    const selected = button.dataset.requestMethod === method;
-    button.classList.toggle("selected", selected);
-    button.setAttribute("aria-pressed", String(selected));
-  });
-}
-
-qsa("[data-request-method]").forEach((button) => {
-  button.addEventListener("click", () => {
-    setRequestMethod(button.closest("#requestForm"), button.dataset.requestMethod);
-  });
 });
 
 const faqItems = qsa(".faq-item");
@@ -885,38 +901,6 @@ qsa("[data-copy-phone]").forEach((button) => {
       button.setAttribute("aria-label", "Не удалось скопировать");
     }
   });
-});
-
-qs("#requestForm").addEventListener("submit", (event) => {
-  event.preventDefault();
-  const form = event.currentTarget;
-  const error = qs("[data-form-error]");
-  const success = qs("[data-form-success]");
-  const name = form.elements.name.value.trim();
-  const phone = form.elements.phone.value.trim();
-
-  error.style.display = "none";
-  success.style.display = "none";
-
-  if (!name) {
-    error.textContent = "Укажите имя, чтобы мы знали, как к вам обращаться.";
-    error.style.display = "block";
-    form.elements.name.focus();
-    return;
-  }
-
-  if (!validatePhone(phone)) {
-    error.textContent = "Введите номер полностью: +7 (___) ___-__-__.";
-    error.style.display = "block";
-    form.elements.phone.setAttribute("aria-invalid", "true");
-    form.elements.phone.focus();
-    return;
-  }
-
-  form.elements.phone.removeAttribute("aria-invalid");
-  success.style.display = "block";
-  form.reset();
-  setRequestMethod(form, "MAX");
 });
 
 initKitchenCarousel();
