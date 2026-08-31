@@ -8,6 +8,12 @@
   const RESTORE_URL = '/api/cms/restore';
   const ADMIN_PATH_RE = /\/admin\/?$/;
   const editMode = new URLSearchParams(location.search).has('cms') || ADMIN_PATH_RE.test(location.pathname);
+  if (editMode) {
+    const stylesheet = document.createElement('link');
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = '/cms/cms.css';
+    document.head.append(stylesheet);
+  }
   const state = {
     content: { version: 1, items: {} },
     dirty: false,

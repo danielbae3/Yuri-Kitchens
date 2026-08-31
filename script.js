@@ -171,6 +171,7 @@ const carouselDots = qs("[data-carousel-dots]");
 function createCarouselCard(slide, index) {
   const figure = document.createElement("figure");
   figure.className = "carousel-card";
+  figure.setAttribute("role", "group");
   figure.setAttribute("aria-roledescription", "slide");
   figure.setAttribute("aria-label", `${index + 1} из ${slides.length}`);
 
@@ -425,14 +426,14 @@ function renderMaterialTabs() {
   categoryTabs.innerHTML = materialCategories
     .map((item) => {
       const selected = item.id === materialState.activeCategory;
-      return `<button class="tab ${selected ? "active" : ""}" id="material-category-${item.id}" type="button" role="tab" aria-selected="${selected}" aria-controls="materialsPanel" data-material-category="${item.id}">${item.label}</button>`;
+      return `<button class="tab ${selected ? "active" : ""}" id="material-category-${item.id}" type="button" role="tab" tabindex="${selected ? "0" : "-1"}" aria-selected="${selected}" aria-controls="materialsPanel" data-material-category="${item.id}">${item.label}</button>`;
     })
     .join("");
 
   materialTabs.innerHTML = category.items
     .map((item) => {
       const selected = item.id === materialState.activeMaterial;
-      return `<button class="material-tab ${selected ? "active" : ""}" id="material-tab-${item.id}" type="button" role="tab" aria-selected="${selected}" aria-controls="materialsPanel" data-material-item="${item.id}">${item.name}</button>`;
+      return `<button class="material-tab ${selected ? "active" : ""}" id="material-tab-${item.id}" type="button" role="tab" tabindex="${selected ? "0" : "-1"}" aria-selected="${selected}" aria-controls="materialsPanel" data-material-item="${item.id}">${item.name}</button>`;
     })
     .join("");
 }
@@ -489,6 +490,18 @@ function initMaterials() {
     materialState.activeMaterial = materialTab.dataset.materialItem;
     renderMaterialTabs();
     renderMaterial();
+  });
+
+  root.addEventListener("keydown", (event) => {
+    if (!event.target.matches('[role="tab"]') || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    const tablist = event.target.closest('[role="tablist"]');
+    const tabs = [...tablist.querySelectorAll('[role="tab"]')];
+    if (!tabs.length) return;
+    event.preventDefault();
+    const current = tabs.indexOf(event.target);
+    const next = event.key === "Home" ? 0 : event.key === "End" ? tabs.length - 1 : (current + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    tabs[next].focus();
+    tabs[next].click();
   });
 }
 
@@ -699,8 +712,8 @@ function createQuiz(root, instanceIndex) {
             <span>Комментарий <small>необязательно</small></span>
             <textarea name="comment" autocomplete="off" placeholder="Размеры, пожелания, удобное время">${escapeHtml(state.contact.comment)}</textarea>
           </label>
-          <p class="quiz-error" data-quiz-error></p>
-          <p class="quiz-success ${state.submitted ? "visible" : ""}" data-quiz-success>Спасибо, заявка принята. Мы свяжемся с вами для уточнения расчета.</p>
+          <p class="quiz-error" data-quiz-error aria-live="polite"></p>
+          <p class="quiz-success ${state.submitted ? "visible" : ""}" data-quiz-success aria-live="polite">Спасибо, заявка принята. Мы свяжемся с вами для уточнения расчета.</p>
         </form>`;
     }
 
@@ -887,12 +900,6 @@ function initPhoneMasks(root = document) {
         if (paramsError?.textContent.startsWith("Введите номер полностью")) paramsError.style.display = "none";
       }
       requestAnimationFrame(() => input.setSelectionRange(input.value.length, input.value.length));
-    });
-
-    input.addEventListener("paste", (event) => {
-      event.preventDefault();
-      input.value = formatRussianPhone(event.clipboardData.getData("text"));
-      input.dispatchEvent(new Event("input", { bubbles: true }));
     });
 
     input.addEventListener("blur", () => {

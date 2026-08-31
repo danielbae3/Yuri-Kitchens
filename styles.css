@@ -20,6 +20,24 @@
   --ui-ease: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("assets/onest-cyrillic.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+20BD, U+2116;
+}
+
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("assets/onest-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -37,6 +55,24 @@ body {
   color: var(--ink);
   font-family: Onest, "Segoe UI", Arial, sans-serif;
   letter-spacing: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  transform: translateY(-160%);
+  border-radius: 6px;
+  background: var(--ink);
+  padding: 10px 14px;
+  color: #fff;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  outline: 3px solid #fff;
+  outline-offset: 2px;
 }
 
 body {
@@ -544,23 +580,35 @@ dd {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 0;
 }
 
 .carousel-dot {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  width: 32px;
+  height: 44px;
   border: 0;
-  border-radius: 50%;
-  background: #d9dfdd;
+  background: transparent;
   cursor: pointer;
   padding: 0;
+}
+
+.carousel-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c9d0cd;
+  transform: translate(-50%, -50%);
   transition: background 180ms ease, transform 180ms ease;
 }
 
-.carousel-dot.active {
+.carousel-dot.active::before {
   background: var(--wood);
-  transform: scale(1.18);
+  transform: translate(-50%, -50%) scale(1.18);
 }
 
 .circle-btn {
@@ -575,7 +623,7 @@ dd {
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 8px 28px rgba(25, 30, 36, 0.12);
-  color: #96a0a9;
+  color: #596168;
   cursor: pointer;
   font-size: 32px;
   line-height: 1;
@@ -1503,7 +1551,7 @@ dd {
 }
 
 .quiz-contact-field small {
-  color: #92989d;
+  color: #60676d;
   font-size: 11px;
   font-weight: 400;
 }
@@ -1841,22 +1889,34 @@ textarea:focus {
   display: none;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0;
   margin-top: 12px;
 }
 
 .process-dot {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  width: 32px;
+  height: 44px;
   border: 0;
-  border-radius: 50%;
-  background: #d8dedc;
+  background: transparent;
   cursor: pointer;
   padding: 0;
+}
+
+.process-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c9d0cd;
+  transform: translate(-50%, -50%);
   transition: width 180ms ease, background 180ms ease;
 }
 
-.process-dot.active {
+.process-dot.active::before {
   width: 18px;
   border-radius: 999px;
   background: #8e8982;
@@ -1918,7 +1978,7 @@ textarea:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
+  gap: 0;
 }
 
 .reviews-link-row .link-button {
@@ -1930,17 +1990,29 @@ textarea:focus {
 }
 
 .review-dot {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  width: 32px;
+  height: 44px;
   border: 0;
-  border-radius: 999px;
-  background: #d9dfdd;
+  background: transparent;
   cursor: pointer;
   padding: 0;
-  transition: width 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
-.review-dot.active {
+.review-dot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #c9d0cd;
+  transform: translate(-50%, -50%);
+  transition: width 180ms ease, background 180ms ease;
+}
+
+.review-dot.active::before {
   width: 18px;
   background: var(--wood);
 }
@@ -2149,7 +2221,7 @@ textarea:focus {
   width: 100%;
   height: 132px;
   background: linear-gradient(90deg, rgba(36, 39, 42, 0.06), rgba(36, 39, 42, 0.82)),
-    url("assets/hero-premium.png") center / cover;
+    url("assets/hero-premium.webp") center / cover;
 }
 
 .cta-panel h2 {
@@ -2223,7 +2295,7 @@ textarea:focus {
 
 .contact-time {
   display: block;
-  color: #9a9b9b;
+  color: #60676d;
   font-size: 13px;
 }
 
@@ -2420,8 +2492,23 @@ textarea:focus {
 
 .footer p {
   margin: 0;
-  color: #7c7f82;
+  color: #666d72;
   font-size: 13px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .modal {
@@ -2708,7 +2795,7 @@ textarea:focus {
 }
 
 .request-field-icon {
-  color: #818b95;
+  color: #626a72;
 }
 
 .request-control input,
@@ -2737,7 +2824,7 @@ textarea:focus {
 
 .request-control input::placeholder,
 .request-control textarea::placeholder {
-  color: #89919a;
+  color: #697177;
   opacity: 1;
 }
 
@@ -2844,7 +2931,7 @@ textarea:focus {
   justify-content: center;
   gap: 6px;
   margin: 0;
-  color: #7a838d;
+  color: #60676d;
   font-size: 12px;
   line-height: 1.4;
   text-align: center;
