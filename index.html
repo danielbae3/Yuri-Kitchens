@@ -3,11 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GRANTLUX - кухни на заказ в Ульяновске</title>
+    <title>Кухни на заказ в Ульяновске — GRANTLUX</title>
     <meta
       name="description"
-      content="Кухни на заказ в Ульяновске: проектирование, материалы, расчет стоимости и заявка на замер."
+      content="Кухни на заказ в Ульяновске и области: проектирование, производство, материалы, расчет стоимости, доставка и установка. Оставьте заявку в GRANTLUX."
     />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="geo.region" content="RU-ULY" />
+    <meta name="geo.placename" content="Ульяновск" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content="GRANTLUX" />
+    <meta property="og:title" content="Кухни на заказ в Ульяновске — GRANTLUX" />
+    <meta property="og:description" content="Проектируем и изготавливаем кухни на заказ в Ульяновске и области. Рассчитайте стоимость и оставьте заявку на кухню." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Кухни на заказ в Ульяновске — GRANTLUX" />
+    <meta name="twitter:description" content="Кухни на заказ в Ульяновске и области: проектирование, производство, материалы, доставка и установка." />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png" />
@@ -17,6 +29,60 @@
     <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="cms/cms.css" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "FurnitureStore",
+        "name": "GRANTLUX",
+        "alternateName": "GRANTLUX корпусная мебель",
+        "description": "Проектирование и изготовление кухонь на заказ в Ульяновске и Ульяновской области.",
+        "telephone": "+79276332197",
+        "priceRange": "₽₽",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "2-й Инженерный проезд, 2А",
+          "addressLocality": "Ульяновск",
+          "addressRegion": "Ульяновская область",
+          "addressCountry": "RU"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Ульяновск"
+          },
+          {
+            "@type": "AdministrativeArea",
+            "name": "Ульяновская область"
+          }
+        ],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "10:00",
+            "closes": "20:00"
+          }
+        ],
+        "makesOffer": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Кухни на заказ",
+              "areaServed": "Ульяновск и Ульяновская область"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <header class="site-header">
@@ -57,6 +123,10 @@
           <div class="hero-copy">
             <h1><span>Кухни на заказ</span><span>в Ульяновске</span></h1>
             <p>Проектируем и создаем кухни, в которых каждый день - в удовольствие.</p>
+            <picture class="hero-inline-media" aria-hidden="true">
+              <source srcset="assets/hero-walnut-mobile.avif" type="image/avif" />
+              <img src="assets/hero-walnut-mobile.webp" alt="" decoding="async" />
+            </picture>
             <div class="hero-actions">
               <a class="btn btn-dark" href="#calculator">Рассчитать кухню</a>
               <button class="btn btn-light hero-secondary" type="button" data-open-modal>Оставить заявку</button>
@@ -100,7 +170,7 @@
                 <div class="slide-tags" data-slide-tags></div>
               </div>
               <div class="slide-actions">
-                <button class="btn btn-dark" type="button" data-open-modal>Рассчитать похожую кухню</button>
+                <a class="btn btn-dark" href="#calculator">Рассчитать похожую кухню</a>
               </div>
             </div>
             <div class="carousel-pagination">
@@ -111,53 +181,176 @@
       </section>
 
       <section class="section materials" id="materials">
-        <div class="container materials-grid">
-          <div class="section-heading">
-            <h2>Материалы</h2>
-            <div class="tabs" role="tablist" aria-label="Материалы кухни">
-              <button class="tab active" type="button" role="tab" aria-selected="true" data-material="fronts">Фасады</button>
-              <button class="tab" type="button" role="tab" aria-selected="false" data-material="countertops">Столешницы</button>
-              <button class="tab" type="button" role="tab" aria-selected="false" data-material="case">Корпус</button>
-              <button class="tab" type="button" role="tab" aria-selected="false" data-material="hardware">Фурнитура</button>
+        <div class="container materials-shell" data-materials>
+          <div class="materials-head">
+            <div>
+              <h2>Поможем выбрать материалы для кухни</h2>
+              <p>
+                <span class="materials-description-full">Покажем разницу между популярными вариантами и поможем выбрать подходящий по внешнему виду, практичности и бюджету.</span>
+                <span class="materials-description-short">Сравним фасады и столешницы по виду, практичности и бюджету.</span>
+              </p>
             </div>
+            <div class="material-category-tabs" role="tablist" aria-label="Категории материалов" data-material-categories></div>
           </div>
-          <div class="material-image">
-            <img data-material-image src="assets/material-facade.jpg" alt="Матовая фасадная панель" />
-          </div>
-          <div class="material-copy">
-            <h3 data-material-title>МДФ в эмали</h3>
-            <p data-material-text>
-              Премиальное покрытие с гладкой матовой поверхностью. Устойчиво к влаге, подходит для минималистичных интерьеров.
-            </p>
-            <div class="swatches" data-swatches aria-label="Доступные оттенки"></div>
-          </div>
+
+          <div class="material-tabs" role="tablist" aria-label="Варианты материалов" data-material-tabs></div>
+
+          <article class="material-panel" role="tabpanel" aria-live="polite" data-material-panel>
+            <div class="material-image">
+              <img data-material-image src="assets/material-facade-film.webp" alt="Кухня с матовыми фасадами МДФ в плёнке" loading="lazy" decoding="async" />
+            </div>
+            <div class="material-copy">
+              <span class="material-category-label" data-material-category-label>Фасады</span>
+              <h3 data-material-title>МДФ в плёнке</h3>
+              <p data-material-text>Практичный вариант с большим выбором цветов и фактур.</p>
+              <dl class="material-points">
+                <div>
+                  <dt><span aria-hidden="true">✓</span> Когда стоит выбрать</dt>
+                  <dd data-material-when>Когда нужен современный внешний вид в разумном бюджете.</dd>
+                </div>
+                <div>
+                  <dt><span aria-hidden="true">₽</span> По бюджету</dt>
+                  <dd data-material-budget>Часто позволяет не переходить к более дорогой окраске.</dd>
+                </div>
+              </dl>
+            </div>
+          </article>
+
+          <p class="materials-note">Не знаете, что выбрать? На замере покажем образцы и поможем сравнить варианты для вашего проекта.</p>
         </div>
       </section>
 
       <section class="section calculator-section" id="calculator">
         <div class="container">
-          <div class="section-heading quiz-heading">
-            <div>
-              <h2>Подберите кухню за 1 минуту</h2>
-              <p>Ответьте на 5 вопросов - мы подготовим ориентир по проекту и свяжемся удобным способом.</p>
-            </div>
+          <div class="cost-heading">
+            <h2 id="calculatorTitle">Рассчитайте стоимость кухни</h2>
+            <p>Укажите основные параметры - стоимость пересчитается автоматически.</p>
           </div>
-          <section class="quiz-card" aria-labelledby="quizTitle" data-quiz-root>
-            <div class="quiz-topline">
-              <span data-quiz-step>Шаг 1 / 5</span>
-              <div class="quiz-progress" aria-hidden="true">
-                <span data-quiz-progress></span>
+
+          <section class="cost-calculator" aria-labelledby="calculatorTitle" data-calculator data-shape="linear">
+            <div class="cost-form">
+              <div class="cost-controls">
+                <div class="cost-shape-plan cost-field-wide">
+                  <fieldset class="cost-field cost-shape-field">
+                    <legend>Форма кухни</legend>
+                    <div class="cost-segments" data-calc-group="shape">
+                      <button class="active" type="button" data-calc-value="linear">Прямая</button>
+                      <button type="button" data-calc-value="corner">Угловая</button>
+                      <button type="button" data-calc-value="uShape">П-образная</button>
+                    </div>
+                  </fieldset>
+
+                  <div class="cost-plan-box" data-calc-plan>
+                    <div class="cost-plan-visual" aria-hidden="true">
+                      <svg viewBox="0 0 360 166" focusable="false">
+                        <path class="cost-plan-counter cost-plan-counter-a" d="M86 58H274V96H86Z" />
+                        <path class="cost-plan-counter cost-plan-counter-b" d="M86 58H124V140H86Z" />
+                        <path class="cost-plan-counter cost-plan-counter-c" d="M236 58H274V140H236Z" />
+                        <path class="cost-plan-side cost-plan-side-a" d="M86 34H274" />
+                        <path class="cost-plan-side cost-plan-side-b" d="M62 54V146" />
+                        <path class="cost-plan-side cost-plan-side-c" d="M298 54V146" />
+                        <g class="cost-plan-label cost-plan-label-a">
+                          <circle cx="180" cy="34" r="14" />
+                          <text x="180" y="39">A</text>
+                        </g>
+                        <g class="cost-plan-label cost-plan-label-b">
+                          <circle cx="62" cy="100" r="14" />
+                          <text x="62" y="105">B</text>
+                        </g>
+                        <g class="cost-plan-label cost-plan-label-c">
+                          <circle cx="298" cy="100" r="14" />
+                          <text x="298" y="105">C</text>
+                        </g>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="cost-dimension-fields cost-field-wide">
+                  <label class="cost-dimension-field" data-calc-side-field="a">
+                    <span>A</span>
+                    <span class="cost-size-input">
+                      <input type="number" min="600" max="7000" step="100" value="3000" data-calc-dimension="a" />
+                      <small>мм</small>
+                    </span>
+                  </label>
+                  <label class="cost-dimension-field is-hidden" data-calc-side-field="b">
+                    <span>B</span>
+                    <span class="cost-size-input">
+                      <input type="number" min="600" max="7000" step="100" value="1800" data-calc-dimension="b" disabled />
+                      <small>мм</small>
+                    </span>
+                  </label>
+                  <label class="cost-dimension-field is-hidden" data-calc-side-field="c">
+                    <span>C</span>
+                    <span class="cost-size-input">
+                      <input type="number" min="600" max="7000" step="100" value="2200" data-calc-dimension="c" disabled />
+                      <small>мм</small>
+                    </span>
+                  </label>
+                </div>
+
+                <label class="cost-field">
+                  <span>Материал фасадов</span>
+                  <select data-calc-select="front">
+                    <option value="film">МДФ в плёнке</option>
+                    <option value="plastic">МДФ в пластике</option>
+                    <option value="paint">МДФ в эмали / RAL</option>
+                  </select>
+                </label>
+
+                <label class="cost-field">
+                  <span>Материал столешницы</span>
+                  <select data-calc-select="countertop">
+                    <option value="hpl">HPL / пластик</option>
+                    <option value="stone">Искусственный камень</option>
+                    <option value="quartz">Кварц</option>
+                  </select>
+                </label>
+
+                <label class="cost-field">
+                  <span>Верхние шкафы</span>
+                  <select data-calc-select="uppers">
+                    <option value="standard">Стандартные</option>
+                    <option value="ceiling">До потолка</option>
+                    <option value="none">Без верхних шкафов</option>
+                  </select>
+                </label>
+
+                <fieldset class="cost-field cost-appliances-field">
+                  <legend>Встроенная техника</legend>
+                  <div class="cost-segments" data-calc-group="appliances">
+                    <button class="active" type="button" data-calc-value="yes">Да</button>
+                    <button type="button" data-calc-value="no">Нет</button>
+                  </div>
+                </fieldset>
               </div>
             </div>
-            <div class="quiz-body" data-quiz-body></div>
-            <div class="quiz-footer">
-              <button class="quiz-back" type="button" data-quiz-back disabled aria-label="Назад">
-                <span class="quiz-back-icon" aria-hidden="true">←</span>
-                <span class="quiz-back-label">Назад</span>
-              </button>
-              <p>Выберите вариант, и квиз перейдет дальше автоматически.</p>
-              <button class="quiz-next" type="button" data-quiz-next disabled>Далее</button>
-            </div>
+
+            <aside class="cost-result" aria-live="polite">
+              <div class="cost-result-copy">
+                <h3>Ориентировочная стоимость</h3>
+                <strong data-calc-price>от 215 000 ₽</strong>
+              </div>
+              <div class="cost-result-main">
+                <div class="cost-summary">
+                  <span>Ваши параметры:</span>
+                  <ul>
+                    <li>Форма: <b data-calc-summary="shape">прямая</b></li>
+                    <li>Размеры: <b data-calc-summary="size">A: 3000 мм</b></li>
+                    <li>Фасады: <b data-calc-summary="front">МДФ в плёнке</b></li>
+                    <li>Столешница: <b data-calc-summary="countertop">HPL / пластик</b></li>
+                    <li>Верхние шкафы: <b data-calc-summary="uppers">стандартные</b></li>
+                    <li>Встроенная техника: <b data-calc-summary="appliances">да</b></li>
+                  </ul>
+                </div>
+                <img src="assets/kitchen-project-02.webp" alt="Светлая кухня с деревянной столешницей" loading="lazy" decoding="async" />
+              </div>
+              <div class="cost-result-bottom">
+                <p>Это предварительный расчёт. Точная стоимость зависит от наполнения и особенностей проекта.</p>
+                <button class="btn btn-dark" type="button" data-open-params-modal>Отправить параметры</button>
+              </div>
+            </aside>
           </section>
         </div>
       </section>
@@ -183,37 +376,37 @@
           <article class="review-card">
             <div><h3>Леонид</h3><span>10.08.2026</span></div>
             <p>Созвонились, встретились на производстве, согласовали проект. Юрий сделал замер, помог с решением, заказ привезли и собрали в срок.</p>
-            <img src="assets/kitchen-project-01-sm.webp" alt="Светлая кухня по отзыву Леонида" />
+            <img src="assets/kitchen-project-01-sm.webp" alt="Светлая кухня по отзыву Леонида" loading="lazy" decoding="async" />
           </article>
           <article class="review-card">
             <div><h3>Ангелина</h3><span>01.08.2026</span></div>
             <p>Кухня получилась отличная. Изготовили и установили в срок, материалы качественные, сборка аккуратная.</p>
-            <img src="assets/kitchen-project-02-sm.webp" alt="Кухня по отзыву Ангелины" />
+            <img src="assets/kitchen-project-02-sm.webp" alt="Кухня по отзыву Ангелины" loading="lazy" decoding="async" />
           </article>
           <article class="review-card">
             <div><h3>Виктор</h3><span>08.12.2025</span></div>
             <p>От проекта до установки прошло около месяца. Всегда были на связи, сделали быстро и качественно, цена устроила.</p>
-            <img src="assets/kitchen-project-03-sm.webp" alt="Кухня по отзыву Виктора" />
+            <img src="assets/kitchen-project-03-sm.webp" alt="Кухня по отзыву Виктора" loading="lazy" decoding="async" />
           </article>
           <article class="review-card">
             <div><h3>Ольга</h3><span>23.01.2025</span></div>
             <p>Все выполнили в срок. Кухня получилась стильной, красивой и удобной, поэтому за другой мебелью тоже планируем обращаться сюда.</p>
-            <img src="assets/kitchen-project-04-sm.webp" alt="Кухня по отзыву Ольги" />
+            <img src="assets/kitchen-project-04-sm.webp" alt="Кухня по отзыву Ольги" loading="lazy" decoding="async" />
           </article>
           <article class="review-card">
             <div><h3>Юлия</h3><span>17.11.2024</span></div>
             <p>Юрий спроектировал, обмерил, подсказал и сделал качественно. Даже маленькая кухня стала стильной и красивой.</p>
-            <img src="assets/kitchen-project-05-sm.webp" alt="Кухня по отзыву Юлии" />
+            <img src="assets/kitchen-project-05-sm.webp" alt="Кухня по отзыву Юлии" loading="lazy" decoding="async" />
           </article>
           <article class="review-card">
             <div><h3>Елена</h3><span>16.01.2024</span></div>
             <p>Кухню сделали в очень короткий срок перед Новым годом. Все договоренности соблюдены, результат получился красивым.</p>
-            <img src="assets/kitchen-project-06-sm.webp" alt="Кухня по отзыву Елены" />
+            <img src="assets/kitchen-project-06-sm.webp" alt="Кухня по отзыву Елены" loading="lazy" decoding="async" />
           </article>
           <article class="review-card">
             <div><h3>Наталья</h3><span>18.12.2023</span></div>
             <p>Быстро приехали на замер, подробно все объяснили. Большой заказ выполнили в срок, сборка прошла аккуратно.</p>
-            <img src="assets/kitchen-project-07-sm.webp" alt="Кухня по отзыву Натальи Кирилл" />
+            <img src="assets/kitchen-project-07-sm.webp" alt="Кухня по отзыву Натальи Кирилл" loading="lazy" decoding="async" />
           </article>
         </div>
         <div class="container reviews-bottom">
@@ -237,7 +430,7 @@
             <div class="faq-intro">
               <h2>Часто задаваемые вопросы</h2>
               <p>Ответили на основные вопросы о заказе и установке кухонь.</p>
-              <img class="faq-illustration" src="assets/faq-kitchen-line-art.png" alt="" aria-hidden="true" />
+              <img class="faq-illustration" src="assets/faq-kitchen-line-art.png" alt="" aria-hidden="true" loading="lazy" decoding="async" />
             </div>
             <div class="faq-content">
               <div class="faq-list" role="list">
@@ -293,11 +486,11 @@
         <div class="container cta-panel">
           <div class="cta-media" aria-hidden="true"></div>
           <div>
-            <h2>Пришлите размеры помещения</h2>
-            <p>Мы подготовим предварительный расчет стоимости вашей будущей кухни.</p>
+            <h2>Оставьте заявку на кухню</h2>
+            <p>Расскажите, что хотите получить, а мы уточним детали и подготовим расчёт.</p>
           </div>
           <div class="cta-actions">
-            <button class="btn btn-light" type="button" data-open-modal>Получить расчет</button>
+            <button class="btn btn-light" type="button" data-open-modal>Оставить заявку</button>
           </div>
         </div>
       </section>
@@ -388,6 +581,57 @@
             <button class="quiz-next" type="button" data-quiz-next disabled>Далее</button>
           </div>
         </section>
+      </section>
+    </div>
+
+    <div class="modal" id="paramsModal" aria-hidden="true">
+      <div class="modal-backdrop" data-close-modal></div>
+      <section class="modal-card request-modal-card params-modal-card" role="dialog" aria-modal="true" aria-labelledby="paramsTitle">
+        <button class="modal-close" type="button" data-close-modal aria-label="Закрыть">×</button>
+        <div class="modal-intro">
+          <h2 id="paramsTitle">Отправить параметры кухни</h2>
+          <p>Оставьте контакты — уточним детали и подготовим расчёт по выбранным параметрам.</p>
+        </div>
+        <form class="request-form" id="paramsForm" novalidate>
+          <div class="params-summary">
+            <span>Ваши параметры</span>
+            <ul data-params-summary></ul>
+          </div>
+          <input name="params" type="hidden" data-params-payload />
+          <label class="request-field">
+            <span class="request-label">Имя</span>
+            <span class="request-control">
+              <svg class="request-field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8c.7-3.1 3.2-5 7-5s6.3 1.9 7 5" /></svg>
+              <input name="name" type="text" autocomplete="name" placeholder="Ваше имя" required />
+            </span>
+          </label>
+          <label class="request-field">
+            <span class="request-label">Телефон *</span>
+            <span class="request-control">
+              <svg class="request-field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.5 3.5 5.3 4.7c-.9.5-1.3 1.5-1 2.5 1.8 6.1 6.5 10.8 12.6 12.6 1 .3 2-.1 2.5-1l1.2-2.2c.4-.8.2-1.8-.5-2.3l-2.7-1.8c-.7-.5-1.7-.4-2.3.2l-1.1 1.1a14.7 14.7 0 0 1-3.8-3.8l1.1-1.1c.6-.6.7-1.6.2-2.3L9.8 4c-.5-.7-1.5-.9-2.3-.5Z" /></svg>
+              <input name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="18" data-phone-mask placeholder="+7 (___) ___-__-__" required />
+            </span>
+          </label>
+          <fieldset class="request-method">
+            <legend>Как связаться?</legend>
+            <div class="request-methods">
+              <button class="request-method-button selected" type="button" data-params-method="MAX" aria-pressed="true">MAX</button>
+              <button class="request-method-button" type="button" data-params-method="Звонок" aria-pressed="false">Звонок</button>
+            </div>
+            <input name="method" type="hidden" value="MAX" />
+          </fieldset>
+          <label class="request-field request-comment">
+            <span class="request-label">Комментарий <small>необязательно</small></span>
+            <span class="request-control request-textarea-control">
+              <svg class="request-field-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5C4 4.7 4.7 4 5.5 4h13c.8 0 1.5.7 1.5 1.5v8c0 .8-.7 1.5-1.5 1.5H9l-5 4v-4.5" /></svg>
+              <textarea name="comment" rows="4" placeholder="Размеры, пожелания или удобное время"></textarea>
+            </span>
+          </label>
+          <p class="form-error" data-params-error></p>
+          <button class="btn btn-dark" type="submit">Отправить параметры</button>
+          <p class="form-success" data-params-success>Параметры подготовлены. Спасибо, мы скоро свяжемся с вами.</p>
+          <p class="request-privacy"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 19 6v5.3c0 4.4-2.8 7.8-7 9.2-4.2-1.4-7-4.8-7-9.2V6l7-2.5Zm-3.2 8.2 2.1 2.1 4.4-4.5" /></svg>Ваши данные используются только для связи по заявке</p>
+        </form>
       </section>
     </div>
 

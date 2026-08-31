@@ -82,35 +82,78 @@ const slides = [
   },
 ];
 
-const materialData = {
-  fronts: {
-    title: "МДФ в эмали",
-    text: "Премиальное покрытие с гладкой матовой поверхностью. Устойчиво к влаге, подходит для минималистичных интерьеров.",
-    image: "assets/material-facade.jpg",
-    alt: "Матовая фасадная панель",
-    colors: ["#f6f5f1", "#ddd9d3", "#aaa99c", "#263240", "#837b75", "#191919"],
+const materialCategories = [
+  {
+    id: "facades",
+    label: "Фасады",
+    items: [
+      {
+        id: "film",
+        name: "МДФ в плёнке",
+        image: "assets/material-facade-film.webp",
+        alt: "Кухня с матовыми фасадами МДФ в плёнке",
+        description: "Практичный вариант с большим выбором цветов и фактур.",
+        when: "Когда нужен современный внешний вид в разумном бюджете.",
+        budget: "Часто позволяет не переходить к более дорогой окраске.",
+      },
+      {
+        id: "ldsp",
+        name: "ЛДСП",
+        image: "assets/material-facade-ldsp.webp",
+        alt: "Кухня с фасадами ЛДСП под светлое дерево",
+        description: "Доступный материал с большим выбором древесных и однотонных декоров.",
+        when: "Когда важны практичность и рациональная стоимость.",
+        budget: "Один из наиболее доступных вариантов фасадов.",
+      },
+      {
+        id: "plastic",
+        name: "Пластик",
+        image: "assets/material-facade-plastic.webp",
+        alt: "Кухня с гладкими пластиковыми фасадами",
+        description: "Износостойкое покрытие с современными цветами и фактурами.",
+        when: "Когда кухня будет активно использоваться каждый день.",
+        budget: "Стоит сравнить с МДФ в плёнке под конкретный проект.",
+      },
+      {
+        id: "painted",
+        name: "Крашеные",
+        image: "assets/material-facade-painted.webp",
+        alt: "Кухня с ровными крашеными матовыми фасадами",
+        description: "Подходят для проектов, где особенно важен определённый цвет и поверхность.",
+        when: "Когда нужен конкретный оттенок или визуальный эффект.",
+        budget: "Обычно дороже готовых декоративных покрытий.",
+      },
+    ],
   },
-  countertops: {
-    title: "Кварц и HPL compact",
-    text: "Практичные поверхности для ежедневной нагрузки: не боятся влаги, легко очищаются и держат строгую геометрию кухни.",
-    image: "assets/kitchen-01.png",
-    alt: "Светлая столешница кухни",
-    colors: ["#f2eee7", "#d5c9bb", "#b9b0a4", "#62665f", "#3d4144", "#1f2020"],
+  {
+    id: "countertops",
+    label: "Столешницы",
+    items: [
+      {
+        id: "hpl",
+        name: "HPL / пластик",
+        image: "assets/material-countertop-hpl.webp",
+        alt: "Кухонная столешница HPL под светлый камень",
+        description: "Практичная рабочая поверхность с большим выбором декоров.",
+        when: "Когда нужна функциональная столешница без лишней переплаты.",
+        budget: "Можно подобрать варианты под камень или дерево дешевле искусственного камня.",
+      },
+      {
+        id: "stone",
+        name: "Искусственный камень",
+        image: "assets/material-countertop-stone.webp",
+        alt: "Светлая столешница из искусственного камня",
+        description: "Выразительное решение для проектов, где важна именно каменная поверхность.",
+        when: "Когда внешний вид и свойства материала оправдывают более высокий бюджет.",
+        budget: "Перед выбором стоит сравнить с качественными вариантами HPL.",
+      },
+    ],
   },
-  case: {
-    title: "Корпус повышенной плотности",
-    text: "Используем влагостойкие плиты и точную кромку, чтобы шкафы сохраняли форму при активной эксплуатации.",
-    image: "assets/kitchen-02.png",
-    alt: "Корпус кухни в светлом интерьере",
-    colors: ["#ffffff", "#eee9df", "#c7beb2", "#a28d78", "#6b6259", "#303235"],
-  },
-  hardware: {
-    title: "Фурнитура с плавным ходом",
-    text: "Петли, направляющие и подъемные механизмы подбираются под вес фасадов и сценарий хранения.",
-    image: "assets/kitchen-03.png",
-    alt: "Фурнитура современной кухни",
-    colors: ["#f9f9f7", "#d9d9d5", "#a6a5a0", "#707476", "#383d40", "#17191a"],
-  },
+];
+
+const materialState = {
+  activeCategory: "facades",
+  activeMaterial: "film",
 };
 
 let currentSlide = 0;
@@ -366,18 +409,86 @@ function initProcessScroller() {
   setActiveDot();
 }
 
-function renderMaterial(key) {
-  const material = materialData[key];
-  qs("[data-material-title]").textContent = material.title;
-  qs("[data-material-text]").textContent = material.text;
-  qs("[data-material-image]").src = material.image;
-  qs("[data-material-image]").alt = material.alt;
-  const swatches = qs("[data-swatches]");
-  swatches.innerHTML = "";
-  material.colors.forEach((color) => {
-    const item = document.createElement("span");
-    item.style.background = color;
-    swatches.append(item);
+function getActiveMaterial() {
+  const category = materialCategories.find((item) => item.id === materialState.activeCategory) || materialCategories[0];
+  const material = category.items.find((item) => item.id === materialState.activeMaterial) || category.items[0];
+  return { category, material };
+}
+
+function renderMaterialTabs() {
+  const root = qs("[data-materials]");
+  if (!root) return;
+  const categoryTabs = root.querySelector("[data-material-categories]");
+  const materialTabs = root.querySelector("[data-material-tabs]");
+  const { category } = getActiveMaterial();
+
+  categoryTabs.innerHTML = materialCategories
+    .map((item) => {
+      const selected = item.id === materialState.activeCategory;
+      return `<button class="tab ${selected ? "active" : ""}" id="material-category-${item.id}" type="button" role="tab" aria-selected="${selected}" aria-controls="materialsPanel" data-material-category="${item.id}">${item.label}</button>`;
+    })
+    .join("");
+
+  materialTabs.innerHTML = category.items
+    .map((item) => {
+      const selected = item.id === materialState.activeMaterial;
+      return `<button class="material-tab ${selected ? "active" : ""}" id="material-tab-${item.id}" type="button" role="tab" aria-selected="${selected}" aria-controls="materialsPanel" data-material-item="${item.id}">${item.name}</button>`;
+    })
+    .join("");
+}
+
+function renderMaterial() {
+  const root = qs("[data-materials]");
+  if (!root) return;
+  const panel = root.querySelector("[data-material-panel]");
+  const image = root.querySelector("[data-material-image]");
+  const title = root.querySelector("[data-material-title]");
+  const text = root.querySelector("[data-material-text]");
+  const when = root.querySelector("[data-material-when]");
+  const budget = root.querySelector("[data-material-budget]");
+  const categoryLabel = root.querySelector("[data-material-category-label]");
+  const { category, material } = getActiveMaterial();
+
+  panel.id = "materialsPanel";
+  panel.setAttribute("aria-labelledby", `material-tab-${material.id}`);
+  panel.classList.add("is-changing");
+
+  window.setTimeout(() => {
+    image.src = material.image;
+    image.alt = material.alt;
+    title.textContent = material.name;
+    text.textContent = material.description;
+    when.textContent = material.when;
+    budget.textContent = material.budget;
+    categoryLabel.textContent = category.label;
+    panel.classList.remove("is-changing");
+  }, 120);
+}
+
+function initMaterials() {
+  const root = qs("[data-materials]");
+  if (!root) return;
+
+  renderMaterialTabs();
+  renderMaterial();
+
+  root.addEventListener("click", (event) => {
+    const categoryTab = event.target.closest("[data-material-category]");
+    if (categoryTab) {
+      const nextCategory = materialCategories.find((item) => item.id === categoryTab.dataset.materialCategory);
+      if (!nextCategory || nextCategory.id === materialState.activeCategory) return;
+      materialState.activeCategory = nextCategory.id;
+      materialState.activeMaterial = nextCategory.items[0].id;
+      renderMaterialTabs();
+      renderMaterial();
+      return;
+    }
+
+    const materialTab = event.target.closest("[data-material-item]");
+    if (!materialTab || materialTab.dataset.materialItem === materialState.activeMaterial) return;
+    materialState.activeMaterial = materialTab.dataset.materialItem;
+    renderMaterialTabs();
+    renderMaterial();
   });
 }
 
@@ -714,6 +825,7 @@ function initQuiz() {
 }
 
 function setModalState(modal, open) {
+  if (!modal) return;
   modal.classList.toggle("open", open);
   modal.setAttribute("aria-hidden", String(!open));
   document.body.classList.toggle("modal-open", qsa(".modal.open").length > 0);
@@ -771,6 +883,8 @@ function initPhoneMasks(root = document) {
         input.removeAttribute("aria-invalid");
         const quizError = input.closest("[data-quiz-contact]")?.querySelector("[data-quiz-error]");
         if (quizError) quizError.textContent = "";
+        const paramsError = input.closest("#paramsForm")?.querySelector("[data-params-error]");
+        if (paramsError?.textContent.startsWith("Введите номер полностью")) paramsError.style.display = "none";
       }
       requestAnimationFrame(() => input.setSelectionRange(input.value.length, input.value.length));
     });
@@ -810,24 +924,288 @@ navLinks.forEach((link) => {
   link.addEventListener("click", () => setNavState(false));
 });
 
-qsa("[data-material]").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    qsa("[data-material]").forEach((item) => {
-      item.classList.remove("active");
-      item.setAttribute("aria-selected", "false");
+const calculatorConfig = {
+  basePrice: 180000,
+  minSize: 600,
+  maxSize: 7000,
+  shapes: {
+    linear: { label: "прямая", multiplier: 1 },
+    corner: { label: "угловая", multiplier: 1.18 },
+    uShape: { label: "П-образная", multiplier: 1.35 },
+  },
+  fronts: {
+    film: { label: "МДФ в плёнке", multiplier: 1 },
+    plastic: { label: "МДФ в пластике", multiplier: 1.12 },
+    paint: { label: "МДФ в эмали / RAL", multiplier: 1.28 },
+  },
+  countertops: {
+    hpl: { label: "HPL / пластик", multiplier: 1 },
+    stone: { label: "Искусственный камень", multiplier: 1.35 },
+    quartz: { label: "Кварц", multiplier: 1.5 },
+  },
+  uppers: {
+    standard: { label: "стандартные", multiplier: 1 },
+    ceiling: { label: "до потолка", multiplier: 1.15 },
+    none: { label: "без верхних шкафов", multiplier: 0.9 },
+  },
+  appliances: {
+    yes: { label: "да", extra: 35000 },
+    no: { label: "нет", extra: 0 },
+  },
+};
+
+const calculatorShapeSides = {
+  linear: ["a"],
+  corner: ["a", "b"],
+  uShape: ["a", "b", "c"],
+};
+
+const calculatorState = {
+  shape: "linear",
+  front: "film",
+  countertop: "hpl",
+  uppers: "standard",
+  appliances: "yes",
+  dimensions: {
+    a: 3000,
+    b: 1800,
+    c: 2200,
+  },
+};
+
+function formatPrice(value) {
+  return new Intl.NumberFormat("ru-RU").format(value);
+}
+
+function clampCostSize(value) {
+  const size = Number(value) || calculatorConfig.minSize;
+  return Math.min(calculatorConfig.maxSize, Math.max(calculatorConfig.minSize, size));
+}
+
+function getActiveCalculatorSides() {
+  return calculatorShapeSides[calculatorState.shape] || calculatorShapeSides.linear;
+}
+
+function getCalculatorDimensionsText() {
+  const sides = getActiveCalculatorSides();
+  const labels = sides.map((side) => side.toUpperCase()).join(" × ");
+  const values = sides.map((side) => formatPrice(calculatorState.dimensions[side])).join(" × ");
+  return `${labels}: ${values} мм`;
+}
+
+function getCalculatorTotalLength() {
+  return getActiveCalculatorSides().reduce((total, side) => total + calculatorState.dimensions[side], 0);
+}
+
+function getCalculatorSnapshot() {
+  const shape = calculatorConfig.shapes[calculatorState.shape];
+  const front = calculatorConfig.fronts[calculatorState.front];
+  const countertop = calculatorConfig.countertops[calculatorState.countertop];
+  const uppers = calculatorConfig.uppers[calculatorState.uppers];
+  const appliances = calculatorConfig.appliances[calculatorState.appliances];
+  const base = calculatorConfig.basePrice * (getCalculatorTotalLength() / 3000);
+  const calculated = base * shape.multiplier * front.multiplier * countertop.multiplier * uppers.multiplier + appliances.extra;
+  const rounded = Math.ceil(calculated / 5000) * 5000;
+  const priceText = `от ${formatPrice(rounded)} ₽`;
+  const rows = [
+    ["Форма", shape.label],
+    ["Размеры", getCalculatorDimensionsText()],
+    ["Фасады", front.label],
+    ["Столешница", countertop.label],
+    ["Верхние шкафы", uppers.label],
+    ["Встроенная техника", appliances.label],
+    ["Ориентировочная стоимость", priceText],
+  ];
+
+  return { priceText, rows };
+}
+
+function initCostCalculator() {
+  const calculator = qs("[data-calculator]");
+  if (!calculator) return;
+
+  const state = calculatorState;
+  const dimensionInputs = calculator.querySelectorAll("[data-calc-dimension]");
+  const sideFields = calculator.querySelectorAll("[data-calc-side-field]");
+  const price = calculator.querySelector("[data-calc-price]");
+  const summary = {
+    shape: calculator.querySelector('[data-calc-summary="shape"]'),
+    size: calculator.querySelector('[data-calc-summary="size"]'),
+    front: calculator.querySelector('[data-calc-summary="front"]'),
+    countertop: calculator.querySelector('[data-calc-summary="countertop"]'),
+    uppers: calculator.querySelector('[data-calc-summary="uppers"]'),
+    appliances: calculator.querySelector('[data-calc-summary="appliances"]'),
+  };
+
+  const update = () => {
+    const snapshot = getCalculatorSnapshot();
+    const summaryValues = Object.fromEntries(snapshot.rows);
+    const activeSides = getActiveCalculatorSides();
+
+    calculator.dataset.shape = state.shape;
+    price.textContent = snapshot.priceText;
+    summary.shape.textContent = summaryValues["Форма"];
+    summary.size.textContent = summaryValues["Размеры"];
+    summary.front.textContent = summaryValues["Фасады"];
+    summary.countertop.textContent = summaryValues["Столешница"];
+    summary.uppers.textContent = summaryValues["Верхние шкафы"];
+    summary.appliances.textContent = summaryValues["Встроенная техника"];
+
+    sideFields.forEach((field) => {
+      const side = field.dataset.calcSideField;
+      const isActive = activeSides.includes(side);
+      const input = field.querySelector("[data-calc-dimension]");
+      field.classList.toggle("is-hidden", !isActive);
+      if (input) input.disabled = !isActive;
     });
-    tab.classList.add("active");
-    tab.setAttribute("aria-selected", "true");
-    renderMaterial(tab.dataset.material);
+  };
+
+  calculator.querySelectorAll("[data-calc-group]").forEach((group) => {
+    group.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-calc-value]");
+      if (!button) return;
+      state[group.dataset.calcGroup] = button.dataset.calcValue;
+      group.querySelectorAll("[data-calc-value]").forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+      update();
+    });
   });
-});
+
+  calculator.querySelectorAll("[data-calc-select]").forEach((select) => {
+    select.addEventListener("change", () => {
+      state[select.dataset.calcSelect] = select.value;
+      update();
+    });
+  });
+
+  dimensionInputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      state.dimensions[input.dataset.calcDimension] = clampCostSize(input.value);
+      update();
+    });
+
+    input.addEventListener("change", () => {
+      const side = input.dataset.calcDimension;
+      state.dimensions[side] = clampCostSize(input.value);
+      input.value = state.dimensions[side];
+      update();
+    });
+  });
+
+  update();
+}
+
+function setParamsMethod(form, method) {
+  form.elements.method.value = method;
+  form.querySelectorAll("[data-params-method]").forEach((button) => {
+    const selected = button.dataset.paramsMethod === method;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+}
+
+function renderParamsSummary(form) {
+  const snapshot = getCalculatorSnapshot();
+  const list = form.querySelector("[data-params-summary]");
+  const payload = form.querySelector("[data-params-payload]");
+  const payloadText = snapshot.rows.map(([label, value]) => `${label}: ${value}`).join("\n");
+
+  if (list) {
+    list.innerHTML = snapshot.rows.map(([label, value]) => `<li><span>${label}</span><b>${value}</b></li>`).join("");
+  }
+  if (payload) payload.value = payloadText;
+}
+
+function resetParamsForm(form) {
+  form.reset();
+  form.classList.remove("is-success");
+  form.querySelectorAll("[aria-invalid]").forEach((field) => field.removeAttribute("aria-invalid"));
+  const error = form.querySelector("[data-params-error]");
+  const success = form.querySelector("[data-params-success]");
+  const submit = form.querySelector('button[type="submit"]');
+  if (error) {
+    error.textContent = "";
+    error.style.display = "none";
+  }
+  if (success) success.style.display = "none";
+  if (submit) submit.disabled = false;
+  setParamsMethod(form, "MAX");
+}
+
+function openParamsModal() {
+  const modal = qs("#paramsModal");
+  const form = qs("#paramsForm");
+  if (!modal || !form) return;
+  resetParamsForm(form);
+  renderParamsSummary(form);
+  setModalState(modal, true);
+  setTimeout(() => form.elements.name?.focus(), 80);
+}
+
+function initParamsForm() {
+  const form = qs("#paramsForm");
+  if (!form) return;
+
+  form.querySelectorAll("[data-params-method]").forEach((button) => {
+    button.addEventListener("click", () => {
+      setParamsMethod(form, button.dataset.paramsMethod);
+    });
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const error = form.querySelector("[data-params-error]");
+    const success = form.querySelector("[data-params-success]");
+    const submit = form.querySelector('button[type="submit"]');
+    const name = form.elements.name.value.trim();
+    const phone = form.elements.phone.value.trim();
+
+    if (error) {
+      error.style.display = "none";
+      error.textContent = "";
+    }
+    if (success) success.style.display = "none";
+    form.elements.name.removeAttribute("aria-invalid");
+    form.elements.phone.removeAttribute("aria-invalid");
+
+    if (!name) {
+      if (error) {
+        error.textContent = "Введите имя.";
+        error.style.display = "block";
+      }
+      form.elements.name.setAttribute("aria-invalid", "true");
+      form.elements.name.focus();
+      return;
+    }
+
+    if (!validatePhone(phone)) {
+      if (error) {
+        error.textContent = "Введите номер полностью: +7 (___) ___-__-__.";
+        error.style.display = "block";
+      }
+      form.elements.phone.setAttribute("aria-invalid", "true");
+      form.elements.phone.focus();
+      return;
+    }
+
+    renderParamsSummary(form);
+    form.classList.add("is-success");
+    if (success) success.style.display = "block";
+    if (submit) submit.disabled = true;
+  });
+}
 
 qsa("[data-open-modal]").forEach((button) => {
   button.addEventListener("click", openRequestModal);
 });
 
+qsa("[data-open-params-modal]").forEach((button) => {
+  button.addEventListener("click", openParamsModal);
+});
+
 qsa("[data-close-modal]").forEach((button) => {
-  button.addEventListener("click", () => setModalState(qs("#requestModal"), false));
+  button.addEventListener("click", () => setModalState(button.closest(".modal"), false));
 });
 
 const faqItems = qsa(".faq-item");
@@ -906,7 +1284,9 @@ qsa("[data-copy-phone]").forEach((button) => {
 initKitchenCarousel();
 initReviewScroller();
 initProcessScroller();
-renderMaterial("fronts");
+initMaterials();
+initCostCalculator();
 initPhoneMasks();
 initQuiz();
+initParamsForm();
 setFaq(0);

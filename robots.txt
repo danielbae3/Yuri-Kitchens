@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# Add Host and Sitemap after the final production domain is confirmed.
